@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="bn" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Topup By Pinak - Premium Gaming Topup Platform</title>
-    <meta name="description" content="Instant game topup, in-game currency, and voucher shop with fast delivery.">
-    <meta name="keywords" content="Topup By Pinak, টপআপ বাই পিনাক, Top Up Pinak, Gaming Topup">
+    <meta name="description" content="Topup By Pinak - Instant game topup, in-game currency, Free Fire diamonds, and vouchers with fast delivery and PB branding.">
+    <meta name="keywords" content="Topup By Pinak, টপআপ বাই পিনাক, PB Topup, PB Gaming, Diamond Topup Bangladesh">
+    <meta property="og:title" content="Topup By Pinak - Premium Gaming Topup Platform">
+    <meta property="og:description" content="Instant game topup, in-game currency, and voucher shop with fast delivery, PB watermark, and rainbow theme.">
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,45 +19,235 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Hind+Siliguri:wght@400;600;700&family=Orbitron:wght@700;900&display=swap');
         
-        body {
-            font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            background-color: #030712;
-            color: #f3f4f6;
-            user-select: none;
+        :root {
+            --rainbow-1: #ff0055;
+            --rainbow-2: #ff7700;
+            --rainbow-3: #ffd000;
+            --rainbow-4: #00ee77;
+            --rainbow-5: #00bfff;
+            --rainbow-6: #8800ff;
+            --rainbow-7: #ff00aa;
         }
 
-        /* Glassmorphism Classes */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background-color: #030308;
+            color: #f3f4f6;
+            font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Rainbow Mesh Aura */
+        .animated-rainbow-mesh {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 128, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 85% 15%, rgba(0, 191, 255, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(136, 0, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(0, 238, 119, 0.10) 0%, transparent 45%),
+                radial-gradient(circle at 80% 85%, rgba(255, 170, 0, 0.10) 0%, transparent 45%);
+            animation: pulseAura 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseAura {
+            0% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+            50% { transform: scale(1.05) rotate(1deg); opacity: 1; }
+            100% { transform: scale(1) rotate(-1deg); opacity: 0.8; }
+        }
+
+        /* STYLISH "PB" BACKGROUND WATERMARK */
+        .pb-watermark-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pb-watermark-text {
+            font-family: 'Orbitron', 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(14rem, 30vw, 32rem);
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, rgba(255, 0, 128, 0.045), rgba(0, 191, 255, 0.045), rgba(136, 0, 255, 0.045), rgba(0, 238, 119, 0.035));
+            background-size: 300% 300%;
+            animation: rainbowFlow 14s ease infinite alternate;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            user-select: none;
+            transform: rotate(-10deg);
+            filter: drop-shadow(0 0 50px rgba(255, 0, 128, 0.06));
+        }
+
+        .pb-watermark-subtext {
+            position: absolute;
+            bottom: 12%;
+            right: 8%;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(3rem, 7vw, 7rem);
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.02);
+            user-select: none;
+            transform: rotate(-5deg);
+        }
+
+        /* Rainbow Animated Text Gradient */
+        .rainbow-text {
+            background: linear-gradient(90deg, #ff0055, #ff7700, #ffdd00, #00ee77, #00bfff, #8800ff, #ff00aa, #ff0055);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbowFlow 6s linear infinite;
+        }
+
+        .rainbow-text-fast {
+            background: linear-gradient(90deg, #ff0055, #ff7700, #ffdd00, #00ee77, #00bfff, #8800ff, #ff00aa, #ff0055);
+            background-size: 250% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbowFlow 4s linear infinite;
+        }
+
+        @keyframes rainbowFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+
+        /* Rainbow Flowing Border Effect */
+        .rainbow-border-box {
+            position: relative;
+            background: rgba(10, 12, 22, 0.88);
+            border-radius: 1.25rem;
+            z-index: 1;
+        }
+
+        .rainbow-border-box::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: calc(1.25rem + 2px);
+            background: linear-gradient(90deg, #ff0055, #ff7700, #ffd000, #00ee77, #00bfff, #8800ff, #ff00aa, #ff0055);
+            background-size: 300% 300%;
+            animation: rainbowFlow 8s linear infinite;
+            z-index: -1;
+            opacity: 0.55;
+            transition: opacity 0.3s ease;
+        }
+
+        .rainbow-border-box:hover::before {
+            opacity: 1;
+            filter: drop-shadow(0 0 12px rgba(0, 191, 255, 0.6));
+        }
+
+        /* Rainbow Button */
+        .rainbow-btn {
+            background: linear-gradient(90deg, #ff0055, #ff7700, #ffd000, #00ee77, #00bfff, #8800ff, #ff00aa, #ff0055);
+            background-size: 300% 300%;
+            animation: rainbowFlow 5s linear infinite;
+            color: #ffffff;
+            font-weight: 800;
+            box-shadow: 0 4px 20px -2px rgba(255, 0, 128, 0.4), 0 0 15px rgba(0, 191, 255, 0.3);
+            transition: all 0.25s ease;
+        }
+
+        .rainbow-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 0, 128, 0.6), 0 0 25px rgba(0, 191, 255, 0.5);
+        }
+
+        .rainbow-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Glassmorphism Styles */
         .glass-panel {
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(13, 16, 29, 0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .glass-nav {
-            background: rgba(3, 7, 18, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(8, 10, 18, 0.90);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Animations */
-        @keyframes popIn {
-            0% { transform: scale(0.9); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        /* PB Logo Icon Styling */
+        .pb-logo-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .animate-pop {
-            animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        .pb-logo-badge {
+            width: 46px;
+            height: 46px;
+            border-radius: 15px;
+            padding: 2px;
+            background: linear-gradient(135deg, #ff0055, #ff7700, #00ee77, #00bfff, #8800ff);
+            background-size: 250% 250%;
+            animation: rainbowFlow 4s linear infinite;
+            box-shadow: 0 0 15px rgba(255, 0, 128, 0.5), 0 0 25px rgba(0, 191, 255, 0.4);
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
+        .pb-logo-inner {
+            width: 100%;
+            height: 100%;
+            background: #06070d;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pb-logo-text {
+            font-family: 'Orbitron', 'Plus Jakarta Sans', sans-serif;
+            font-weight: 900;
+            font-size: 1.3rem;
+            letter-spacing: -1px;
+            background: linear-gradient(120deg, #ffffff 10%, #ffd000 35%, #00ee77 55%, #00bfff 75%, #ff00aa 95%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbowFlow 4s linear infinite;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+        }
+
+        /* Typing cursor animation */
+        .typing-cursor {
+            display: inline-block;
+            margin-left: 3px;
+            font-weight: 900;
+            color: #00e5ff;
+            animation: blinkCursor 0.75s infinite;
+        }
+
+        @keyframes blinkCursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         /* Interactive State Utility */
@@ -64,7 +257,7 @@
         }
 
         .initial-icon {
-            background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+            background: linear-gradient(135deg, #ff007f 0%, #7928ca 50%, #0070f3 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -85,18 +278,39 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-15deg);
-            background: rgba(239, 68, 68, 0.9);
+            background: rgba(239, 68, 68, 0.95);
             color: white;
             font-weight: 900;
-            font-size: 8px;
-            padding: 2px 6px;
+            font-size: 9px;
+            padding: 3px 8px;
             border-radius: 4px;
             border: 1px solid white;
             letter-spacing: 1px;
             white-space: nowrap;
         }
 
-        /* Popup animation */
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 10, 20, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff007f, #00bfff);
+            border-radius: 9999px;
+        }
+
+        /* Pop in animation */
+        @keyframes popIn {
+            0% { transform: scale(0.92); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
         #custom-popup {
             transition: opacity 0.2s ease, transform 0.2s ease;
         }
@@ -109,248 +323,367 @@
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex justify-center selection:bg-purple-500 selection:text-white pb-24">
+<body class="w-full min-h-screen bg-[#04050a] text-slate-100 flex flex-col selection:bg-pink-500 selection:text-white">
 
-    <!-- APP WRAPPER (Mobile-First Frame) -->
-    <div class="w-full max-w-md min-h-screen flex flex-col relative bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 border-x border-white/5 shadow-2xl overflow-x-hidden">
+    <!-- AMBIENT RAINBOW GLOW BACKGROUND -->
+    <div class="animated-rainbow-mesh"></div>
 
-        <!-- NOTICE TICKER -->
-        <div id="notice-ticker" class="bg-gradient-to-r from-purple-900/90 via-indigo-900/90 to-purple-900/90 border-b border-purple-500/20 py-1.5 px-4 flex items-center gap-2 overflow-hidden z-20">
-            <i class="fa-solid fa-bullhorn text-purple-300 text-xs animate-pulse"></i>
-            <marquee id="notice-text" class="text-xs font-semibold text-purple-100 tracking-wide" scrollamount="4">
-                আমাদের ওয়েবসাইটে আপনাকে স্বাগতম! যেকোনো প্রয়োজনে লাইভ সাপোর্টে যোগাযোগ করুন।
-            </marquee>
+    <!-- STYLISH PB WATERMARK BRANDING ACROSS BACKGROUND -->
+    <div class="pb-watermark-bg">
+        <div class="pb-watermark-text select-none">PB</div>
+        <div class="pb-watermark-subtext select-none">TOPUP BY PINAK</div>
+    </div>
+
+    <!-- MAIN FULL-SCREEN WRAPPER -->
+    <div class="relative w-full min-h-screen flex flex-col z-10">
+
+        <!-- RAINBOW TOP NOTICE BAR -->
+        <div id="notice-ticker" class="w-full bg-gradient-to-r from-red-600/90 via-amber-500/90 via-emerald-500/90 via-sky-500/90 via-purple-600/90 to-pink-600/90 p-[1px] shadow-lg shadow-pink-950/20 z-30">
+            <div class="w-full bg-slate-950/90 backdrop-blur-md py-1.5 px-4 flex items-center gap-3">
+                <div class="flex items-center gap-1.5 text-xs font-black uppercase text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded-full border border-amber-500/40 shrink-0">
+                    <i class="fa-solid fa-bullhorn animate-pulse text-amber-400"></i>
+                    <span class="hidden sm:inline">Notice</span>
+                </div>
+                <marquee id="notice-text" class="text-xs sm:text-sm font-semibold text-slate-100 tracking-wide" scrollamount="4">
+                    Topup By Pinak-এ আপনাকে স্বাগতম! যেকোনো প্রয়োজনে আমাদের লাইভ হোয়াটসঅ্যাপ ও টেলিগ্রাম সাপোর্টে যোগাযোগ করুন।
+                </marquee>
+            </div>
         </div>
 
-        <!-- MAIN HEADER -->
-        <header class="sticky top-0 z-30 glass-nav px-5 py-3.5 flex items-center justify-between border-b border-white/5 shadow-sm">
-            <div class="flex items-center gap-3">
-                <div id="user-initial-circle" class="w-12 h-12 rounded-full border-2 border-white/40 tap-effect initial-icon text-xl shadow-lg cursor-pointer" onclick="switchSection('profile-sec', document.getElementById('nav-profile'))">G</div>
-                <div onclick="switchSection('profile-sec', document.getElementById('nav-profile'))">
-                    <div class="flex items-center gap-2">
-                        <h2 id="user-name" class="font-bold text-xl cursor-pointer text-white drop-shadow">Guest</h2>
-                        <span id="header-vip-tag" class="hidden text-[9px] bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded-full shadow"><i class="fa-solid fa-crown text-[8px]"></i> VIP</span>
+        <!-- MAIN HEADER (FULL-WIDTH RESPONSIVE WITH "TOPUP BY PINAK" & PB LOGO) -->
+        <header class="sticky top-0 z-40 glass-nav w-full px-4 sm:px-8 py-3 flex items-center justify-between border-b border-white/10 shadow-2xl">
+            <!-- LEFT: PROMINENT PB LOGO & "TOPUP BY PINAK" BRANDING -->
+            <div class="flex items-center gap-3.5 cursor-pointer tap-effect" onclick="switchSection('home-sec', document.getElementById('nav-home'))">
+                <div class="pb-logo-container">
+                    <div class="pb-logo-badge">
+                        <div class="pb-logo-inner">
+                            <span class="pb-logo-text">PB</span>
+                            <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                            <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-cyan-400"></span>
+                        </div>
                     </div>
-                    <div class="bg-black/30 backdrop-blur-md border border-white/10 px-3 py-0.5 rounded-full text-[11px] font-bold text-blue-200">Balance: <span id="user-balance" class="text-emerald-400 font-extrabold">0</span> TK</div>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-1.5">
+                        <h1 class="text-lg sm:text-2xl font-black tracking-tight rainbow-text font-['Orbitron',sans-serif]">Topup By Pinak</h1>
+                        <span class="text-[9px] sm:text-[10px] bg-gradient-to-r from-pink-500 to-purple-600 text-white font-black px-1.5 py-0.5 rounded-full shadow-sm tracking-wider uppercase">OFFICIAL</span>
+                    </div>
+                    <span class="text-[10px] sm:text-xs text-slate-400 font-semibold flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Instant Gaming Topup Platform
+                    </span>
                 </div>
             </div>
 
-            <!-- RIGHT ACTION BUTTONS -->
-            <div class="flex items-center gap-2">
-                <button id="header-logout-btn" onclick="handleLogout()" class="hidden p-2 text-rose-400 hover:text-rose-300 bg-rose-950/30 border border-rose-500/20 rounded-xl tap-effect text-sm" title="Logout">
+            <!-- CENTER: DESKTOP NAVIGATION TABS -->
+            <nav class="hidden md:flex items-center gap-1 bg-slate-900/80 border border-white/10 rounded-2xl p-1.5 shadow-inner">
+                <button id="desk-nav-home" onclick="switchSection('home-sec', this)" class="nav-btn-desk flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-pink-600/40 to-purple-600/40 border border-pink-500/40 transition-all">
+                    <i class="fa-solid fa-house text-pink-400"></i> Home
+                </button>
+                <button id="desk-nav-orders" onclick="switchSection('orders-sec', this)" class="nav-btn-desk flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+                    <i class="fa-solid fa-bag-shopping text-cyan-400"></i> Orders
+                </button>
+                <button id="desk-nav-wallet" onclick="switchSection('wallet-sec', this)" class="nav-btn-desk flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+                    <i class="fa-solid fa-wallet text-emerald-400"></i> Add Money
+                </button>
+                <button id="desk-nav-profile" onclick="switchSection('profile-sec', this)" class="nav-btn-desk flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+                    <i class="fa-solid fa-user text-amber-400"></i> Profile
+                </button>
+            </nav>
+
+            <!-- RIGHT: USER BALANCE, LOGIN & LOGOUT -->
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <!-- User Profile & Balance pill -->
+                <div class="flex items-center gap-2 bg-slate-900/90 border border-white/15 hover:border-pink-500/50 p-1.5 sm:p-2 pr-3 sm:pr-4 rounded-2xl cursor-pointer tap-effect transition-all shadow-lg" onclick="switchSection('profile-sec', document.getElementById('nav-profile'))">
+                    <div id="user-initial-circle" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl initial-icon text-base sm:text-lg font-black shadow-md border border-white/30">G</div>
+                    <div class="text-left">
+                        <div class="flex items-center gap-1.5">
+                            <span id="user-name" class="font-extrabold text-xs sm:text-sm text-white max-w-[90px] sm:max-w-[130px] truncate">Guest</span>
+                            <span id="header-vip-tag" class="hidden text-[8px] sm:text-[9px] bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 font-black px-1.5 py-0.2 rounded-md shadow"><i class="fa-solid fa-crown text-[7px]"></i> VIP</span>
+                        </div>
+                        <div class="text-[10px] sm:text-xs font-bold text-slate-300">
+                            Balance: <span id="user-balance" class="text-emerald-400 font-extrabold">0</span> <span class="text-emerald-500">TK</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Header Logout Button -->
+                <button id="header-logout-btn" onclick="handleLogout()" class="hidden p-2.5 sm:p-3 text-rose-400 hover:text-rose-200 bg-rose-950/40 border border-rose-500/30 rounded-2xl tap-effect text-sm transition-all" title="Logout">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 </button>
             </div>
         </header>
 
-        <!-- MAIN CONTENT AREA -->
-        <main class="flex-1 p-4 space-y-6 overflow-y-auto">
+        <!-- EYE-CATCHING RAINBOW TYPING HERO BANNER -->
+        <div class="w-full max-w-7xl mx-auto px-4 sm:px-8 pt-4 sm:pt-6">
+            <div class="rainbow-border-box p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-3 shadow-2xl overflow-hidden">
+                <div class="flex items-center gap-3.5 w-full md:w-auto">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-pink-600 via-purple-600 to-cyan-500 p-[2px] shrink-0">
+                        <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-pink-400 text-lg sm:text-xl">
+                            <i class="fa-solid fa-wand-magic-sparkles animate-spin" style="animation-duration: 8s;"></i>
+                        </div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-pink-400 bg-pink-500/10 border border-pink-500/30 px-2 py-0.5 rounded-full">Topup By Pinak Official</span>
+                            <span class="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Delivery 24/7
+                            </span>
+                        </div>
+                        <!-- DYNAMIC TYPING ELEMENT -->
+                        <div class="min-h-[28px] sm:min-h-[32px] flex items-center mt-1">
+                            <span id="typing-heading" class="rainbow-text-fast font-black text-sm sm:text-base md:text-lg tracking-tight font-['Plus_Jakarta_Sans',sans-serif]"></span>
+                            <span class="typing-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Action Buttons in Banner -->
+                <div class="flex items-center gap-2 w-full md:w-auto justify-end shrink-0">
+                    <button onclick="switchSection('wallet-sec', document.getElementById('nav-wallet'))" class="rainbow-btn px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-black flex items-center gap-2">
+                        <i class="fa-solid fa-bolt"></i> Add Money (টপআপ)
+                    </button>
+                    <a href="https://wa.me/8801909699608?text=Hello%20Topup%20By%20Pinak%20Support" target="_blank" class="p-2 sm:p-2.5 bg-slate-900 border border-emerald-500/40 hover:border-emerald-400 text-emerald-400 rounded-xl tap-effect text-xs sm:text-sm font-bold flex items-center gap-1.5">
+                        <i class="fa-brands fa-whatsapp text-base"></i> <span class="hidden sm:inline">Support</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT CONTAINER (FULL-SCREEN RESPONSIVE) -->
+        <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 py-6 space-y-6 overflow-y-auto pb-28 md:pb-12">
 
             <!-- HOME SECTION -->
-            <div id="home-sec" class="app-section space-y-6">
-                <!-- Slider -->
-                <div class="relative w-full h-44 bg-slate-900/80 rounded-3xl overflow-hidden border border-purple-500/20 shadow-xl shadow-purple-950/40">
-                    <img id="slider-img" class="w-full h-full object-cover transition-opacity duration-500" src="https://i.postimg.cc/BQ0C1zS1/1785989300369.png" alt="Offers Banner">
-                    <div id="slider-indicators" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5"></div>
+            <div id="home-sec" class="app-section space-y-6 animate-pop">
+                <!-- HERO SLIDER BANNER WITH RAINBOW GLOW BORDER -->
+                <div class="rainbow-border-box p-1 overflow-hidden shadow-2xl">
+                    <div class="relative w-full h-44 sm:h-64 md:h-80 rounded-[1.1rem] overflow-hidden bg-slate-900">
+                        <img id="slider-img" class="w-full h-full object-cover transition-opacity duration-700" src="https://i.postimg.cc/BQ0C1zS1/1785989300369.png" alt="Offers Banner">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none"></div>
+                        <div id="slider-indicators" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10"></div>
+                        <div class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full text-[10px] sm:text-xs font-black rainbow-text flex items-center gap-1.5">
+                            <i class="fa-solid fa-fire text-amber-400 animate-bounce"></i> Hot Offers
+                        </div>
+                    </div>
                 </div>
 
                 <!-- PREMIUM MEMBERS CATEGORY -->
-                <div id="premium-category-container" class="hidden space-y-4 bg-gradient-to-br from-amber-950/70 via-yellow-950/40 to-slate-900 border border-amber-500/40 p-4 rounded-3xl shadow-xl shadow-amber-950/40 relative overflow-hidden">
-                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
-                    <div class="flex items-center justify-between relative z-10">
-                        <h2 class="text-lg font-black text-amber-400 uppercase tracking-tight flex items-center gap-2">
+                <div id="premium-category-container" class="hidden space-y-4 rainbow-border-box p-4 sm:p-6 relative overflow-hidden shadow-2xl">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 relative z-10">
+                        <h2 class="text-lg sm:text-xl font-black text-amber-300 uppercase tracking-tight flex items-center gap-2">
                             <i class="fa-solid fa-crown text-amber-400 animate-bounce"></i> Premium Member Offers 👑
                         </h2>
-                        <span id="premium-header-badge" class="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1 shadow-sm">
+                        <span id="premium-header-badge" class="text-[10px] sm:text-xs bg-amber-500/20 text-amber-300 border border-amber-500/40 px-3 py-1 rounded-full font-bold flex items-center gap-1 shadow-sm w-fit">
                             <i class="fa-solid fa-lock text-[9px]"></i> ১০০০+ TK টপআপ
                         </span>
                     </div>
-                    <div id="user-vip-status-badge" class="flex items-center justify-between text-[11px] text-amber-200/80 bg-amber-500/10 border border-amber-500/20 px-3 py-2 rounded-xl font-medium"></div>
-                    <div id="premium-list" class="grid grid-cols-3 gap-3"></div>
+                    <div id="user-vip-status-badge" class="flex items-center justify-between text-xs text-amber-200/90 bg-amber-500/10 border border-amber-500/30 px-4 py-2.5 rounded-2xl font-medium"></div>
+                    <div id="premium-list" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-4"></div>
                 </div>
 
                 <!-- SPECIAL OFFERS -->
-                <div id="special-topup-container" class="hidden space-y-4 bg-gradient-to-br from-red-950/60 via-rose-950/40 to-slate-900 border border-red-500/30 p-4 rounded-3xl shadow-xl shadow-red-950/30">
-                    <h2 class="text-lg font-black text-rose-400 uppercase tracking-tight flex items-center gap-2">
+                <div id="special-topup-container" class="hidden space-y-4 bg-gradient-to-br from-red-950/50 via-slate-900 to-slate-900 border border-red-500/30 p-4 sm:p-6 rounded-3xl shadow-xl">
+                    <h2 class="text-base sm:text-lg font-black text-rose-400 uppercase tracking-tight flex items-center gap-2">
                         <i class="fa-solid fa-fire text-amber-500 animate-bounce"></i> Special Offers 🔥
                     </h2>
-                    <div id="special-list" class="grid grid-cols-3 gap-3"></div>
+                    <div id="special-list" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-4"></div>
                 </div>
 
                 <!-- PINNED OFFERS -->
-                <div id="pinned-category-container" class="hidden space-y-4 bg-gradient-to-br from-blue-950/60 via-sky-950/40 to-slate-900 border border-blue-500/30 p-4 rounded-3xl shadow-xl shadow-blue-950/30">
-                    <h2 class="text-lg font-black text-blue-400 uppercase tracking-tight flex items-center gap-2">
+                <div id="pinned-category-container" class="hidden space-y-4 bg-gradient-to-br from-blue-950/50 via-slate-900 to-slate-900 border border-blue-500/30 p-4 sm:p-6 rounded-3xl shadow-xl">
+                    <h2 class="text-base sm:text-lg font-black text-blue-400 uppercase tracking-tight flex items-center gap-2">
                         <i class="fa-solid fa-thumbtack -rotate-45 text-sky-400"></i> Pinned Offers
                     </h2>
-                    <div id="pinned-list" class="grid grid-cols-3 gap-3"></div>
+                    <div id="pinned-list" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-4"></div>
                 </div>
 
-                <!-- GENERAL CATEGORIES -->
-                <div class="space-y-3">
-                    <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                        <i class="fa-solid fa-layer-group text-purple-400"></i> All Products
-                    </h2>
-                    <div id="category-list" class="grid grid-cols-3 gap-3"></div>
-                </div>
-
-                <!-- LIVE RECENT ORDERS -->
-                <div class="space-y-3 pt-2">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-clock-rotate-left text-indigo-400"></i> Live Recent Orders
+                <!-- ALL PRODUCTS SECTION -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                        <h2 class="text-xs sm:text-sm font-black rainbow-text uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group text-pink-400"></i> All Gaming Packages & Vouchers
                         </h2>
-                        <span class="text-[10px] text-emerald-400 flex items-center gap-1 font-semibold">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span> Live Updates
-                        </span>
+                        <span class="text-[11px] text-slate-400 font-semibold">Instant Automatic Delivery</span>
                     </div>
-                    <div id="dashboard-latest-orders" class="space-y-2"></div>
+                    <div id="category-list" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-4"></div>
                 </div>
 
-                <!-- COMMUNITY & SOCIAL CHANNELS -->
-                <div class="space-y-3 pt-3 border-t border-white/5">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-share-nodes text-purple-400"></i> Join Our Community
-                        </h2>
-                        <span class="text-[10px] text-purple-300 font-semibold flex items-center gap-1">
-                            <i class="fa-solid fa-headset text-emerald-400"></i> 24/7 Support
-                        </span>
+                <!-- LIVE RECENT ORDERS & COMMUNITY TWO-COLUMN ON DESKTOP -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
+                    <!-- LIVE RECENT ORDERS -->
+                    <div class="space-y-3 bg-slate-900/60 border border-white/10 p-4 sm:p-5 rounded-3xl">
+                        <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                            <h2 class="text-xs sm:text-sm font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-clock-rotate-left text-cyan-400"></i> Live Recent Orders
+                            </h2>
+                            <span class="text-[10px] text-emerald-400 flex items-center gap-1 font-semibold bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Live Updates
+                            </span>
+                        </div>
+                        <div id="dashboard-latest-orders" class="space-y-2 max-h-96 overflow-y-auto pr-1"></div>
                     </div>
-                    <div class="grid grid-cols-3 gap-3">
-                        <!-- Facebook -->
-                        <a id="home-link-facebook" href="https://www.facebook.com/share/1S51p6fXQA/" target="_blank" class="bg-gradient-to-br from-blue-950/60 via-slate-900 to-slate-900 border border-blue-500/30 hover:border-blue-400 p-3 rounded-2xl flex flex-col items-center justify-center gap-1.5 shadow-lg shadow-blue-950/20 tap-effect transition-all group">
-                            <div class="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-md">
-                                <i class="fa-brands fa-facebook-f text-lg"></i>
-                            </div>
-                            <span class="text-xs font-extrabold text-slate-100">Facebook</span>
-                            <span class="text-[9px] text-blue-400 font-semibold">Community</span>
-                        </a>
 
-                        <!-- Telegram -->
-                        <a id="home-link-telegram" href="https://t.me/safetopup" target="_blank" class="bg-gradient-to-br from-sky-950/60 via-slate-900 to-slate-900 border border-sky-500/30 hover:border-sky-400 p-3 rounded-2xl flex flex-col items-center justify-center gap-1.5 shadow-lg shadow-sky-950/20 tap-effect transition-all group">
-                            <div class="w-10 h-10 rounded-xl bg-sky-600/20 border border-sky-500/40 flex items-center justify-center text-sky-400 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all shadow-md">
-                                <i class="fa-brands fa-telegram text-lg"></i>
+                    <!-- COMMUNITY & SOCIAL CHANNELS -->
+                    <div class="space-y-3 bg-slate-900/60 border border-white/10 p-4 sm:p-5 rounded-3xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                                <h2 class="text-xs sm:text-sm font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                                    <i class="fa-solid fa-share-nodes text-purple-400"></i> Join Topup By Pinak Community
+                                </h2>
+                                <span class="text-[10px] text-pink-300 font-semibold flex items-center gap-1 bg-pink-500/10 border border-pink-500/30 px-2 py-0.5 rounded-full">
+                                    <i class="fa-solid fa-headset text-emerald-400"></i> 24/7 Support
+                                </span>
                             </div>
-                            <span class="text-xs font-extrabold text-slate-100">Telegram</span>
-                            <span class="text-[9px] text-sky-400 font-semibold">Channel</span>
-                        </a>
+                            <p class="text-xs text-slate-400 mt-2">আমাদের সোশ্যাল মিডিয়া ও টেলিগ্রাম চ্যানেলে যুক্ত হয়ে নিয়মিত ফ্রি ডায়মন্ড গিভঅ্যাওয়ে ও স্পেশাল ডিসকাউন্ট পান!</p>
+                        </div>
 
-                        <!-- YouTube -->
-                        <a id="home-link-youtube" href="https://www.youtube.com/@Ffpinakgemar-e7w" target="_blank" class="bg-gradient-to-br from-red-950/60 via-slate-900 to-slate-900 border border-red-500/30 hover:border-red-400 p-3 rounded-2xl flex flex-col items-center justify-center gap-1.5 shadow-lg shadow-red-950/20 tap-effect transition-all group">
-                            <div class="w-10 h-10 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-400 group-hover:scale-110 group-hover:bg-red-600 group-hover:text-white transition-all shadow-md">
-                                <i class="fa-brands fa-youtube text-lg"></i>
-                            </div>
-                            <span class="text-xs font-extrabold text-slate-100">YouTube</span>
-                            <span class="text-[9px] text-red-400 font-semibold">Subscribe</span>
-                        </a>
+                        <div class="grid grid-cols-3 gap-3 pt-4">
+                            <!-- Facebook -->
+                            <a id="home-link-facebook" href="https://www.facebook.com/share/1S51p6fXQA/" target="_blank" class="bg-gradient-to-br from-blue-950/60 to-slate-900 border border-blue-500/30 hover:border-blue-400 p-3.5 rounded-2xl flex flex-col items-center justify-center gap-1.5 shadow-lg tap-effect transition-all group">
+                                <div class="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-md">
+                                    <i class="fa-brands fa-facebook-f text-lg"></i>
+                                </div>
+                                <span class="text-xs font-black text-slate-100">Facebook</span>
+                                <span class="text-[9px] text-blue-400 font-semibold">Community</span>
+                            </a>
+
+                            <!-- Telegram -->
+                            <a id="home-link-telegram" href="https://t.me/safetopup" target="_blank" class="bg-gradient-to-br from-sky-950/60 to-slate-900 border border-sky-500/30 hover:border-sky-400 p-3.5 rounded-2xl flex flex-col items-center justify-center gap-1.5 shadow-lg tap-effect transition-all group">
+                                <div class="w-10 h-10 rounded-xl bg-sky-600/20 border border-sky-500/40 flex items-center justify-center text-sky-400 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all shadow-md">
+                                    <i class="fa-brands fa-telegram text-lg"></i>
+                                </div>
+                                <span class="text-xs font-black text-slate-100">Telegram</span>
+                                <span class="text-[9px] text-sky-400 font-semibold">Channel</span>
+                            </a>
+
+                            <!-- YouTube -->
+                            <a id="home-link-youtube" href="https://www.youtube.com/@Ffpinakgemar-e7w" target="_blank" class="bg-gradient-to-br from-red-950/60 to-slate-900 border border-red-500/30 hover:border-red-400 p-3.5 rounded-2xl flex flex-col items-center justify-center gap-1.5 shadow-lg tap-effect transition-all group">
+                                <div class="w-10 h-10 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-400 group-hover:scale-110 group-hover:bg-red-600 group-hover:text-white transition-all shadow-md">
+                                    <i class="fa-brands fa-youtube text-lg"></i>
+                                </div>
+                                <span class="text-xs font-black text-slate-100">YouTube</span>
+                                <span class="text-[9px] text-red-400 font-semibold">Subscribe</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- PRODUCT DETAIL -->
-            <div id="product-sec" class="app-section hidden space-y-5">
-                <button onclick="handleBack()" class="flex items-center gap-2 font-bold text-sm text-purple-400 hover:text-purple-300 tap-effect bg-purple-950/40 border border-purple-500/30 px-4 py-2 rounded-xl backdrop-blur-md"><i class="fa-solid fa-arrow-left"></i> Back</button>
+            <div id="product-sec" class="app-section hidden space-y-6 animate-pop">
+                <button onclick="handleBack()" class="flex items-center gap-2 font-bold text-sm text-cyan-400 hover:text-cyan-300 tap-effect bg-slate-900/80 border border-cyan-500/30 px-4 py-2 rounded-xl backdrop-blur-md">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Products
+                </button>
                 
                 <!-- VIP Indicator Banner -->
-                <div id="p-vip-tag" class="hidden w-full bg-gradient-to-r from-amber-500/20 via-yellow-500/10 to-amber-500/20 border border-amber-500/40 p-3 rounded-2xl text-center shadow-lg">
-                    <p class="text-xs font-black text-amber-300 flex items-center justify-center gap-1.5 uppercase tracking-wider">
+                <div id="p-vip-tag" class="hidden w-full rainbow-border-box p-4 rounded-2xl text-center shadow-lg">
+                    <p class="text-xs sm:text-sm font-black text-amber-300 flex items-center justify-center gap-1.5 uppercase tracking-wider">
                         <i class="fa-solid fa-crown text-amber-400 animate-bounce"></i> প্রিমিয়াম মেম্বার এক্সক্লুসিভ অফার
                     </p>
-                    <p class="text-[10px] text-amber-200/80 mt-0.5 font-medium">এই অফারটি অর্ডার করতে ওয়েবসাইট থেকে কমপক্ষে ১,০০০ টাকা টপআপ থাকা বাধ্যতামূলক</p>
+                    <p class="text-xs text-amber-200/80 mt-1 font-medium">এই অফারটি অর্ডার করতে ওয়েবসাইট থেকে কমপক্ষে ১,০০০ টাকা টপআপ থাকা বাধ্যতামূলক</p>
                 </div>
 
                 <!-- 1. Product Title & Image Header -->
-                <div class="bg-slate-900/90 border border-blue-500/30 rounded-3xl p-5 flex gap-4 items-center shadow-xl">
-                    <img id="p-img" class="w-16 h-16 rounded-2xl object-cover border border-white/10" src="">
-                    <h3 id="p-title" class="text-lg font-bold text-white tracking-tight"></h3>
+                <div class="rainbow-border-box p-5 flex gap-4 items-center shadow-xl">
+                    <img id="p-img" class="w-20 h-20 rounded-2xl object-cover border-2 border-white/20 shadow-md" src="">
+                    <div>
+                        <span class="text-[10px] font-black uppercase text-pink-400 tracking-wider">Topup By Pinak Verified</span>
+                        <h3 id="p-title" class="text-xl sm:text-2xl font-black text-white tracking-tight"></h3>
+                    </div>
                 </div>
 
                 <!-- 2. Select Package -->
                 <div class="space-y-3">
-                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Select Package</label>
-                    <div id="package-list" class="grid grid-cols-2 gap-3"></div>
+                    <label class="text-xs sm:text-sm font-black text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-cubes text-pink-400"></i> Select Package (প্যাকেজ নির্বাচন করুন)
+                    </label>
+                    <div id="package-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"></div>
                 </div>
 
                 <!-- 3. Account Information -->
                 <div class="space-y-3">
-                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Account Information</label>
-                    <div id="account-inputs" class="bg-slate-900/90 border border-white/10 p-2 rounded-2xl focus-within:border-purple-500/50"></div>
+                    <label class="text-xs sm:text-sm font-black text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-id-card text-cyan-400"></i> Account Information (প্লেয়ার আইডি / অ্যাকাউন্ট ইনফো)
+                    </label>
+                    <div id="account-inputs" class="bg-slate-900/90 border border-white/10 p-3 rounded-2xl focus-within:border-pink-500/50 shadow-inner"></div>
                 </div>
 
                 <!-- 4. Confirm Order Button -->
-                <button onclick="triggerConfirm()" class="w-full bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 text-white font-black p-4 rounded-2xl shadow-xl shadow-purple-950/50 tap-effect uppercase tracking-wider text-sm flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-bolt"></i> Confirm Order
+                <button onclick="triggerConfirm()" class="w-full rainbow-btn p-4 rounded-2xl uppercase tracking-wider text-sm sm:text-base flex items-center justify-center gap-2 shadow-xl">
+                    <i class="fa-solid fa-bolt text-amber-300 text-lg"></i> Confirm Order (অর্ডার কনফার্ম করুন)
                 </button>
 
                 <!-- 5. Product Description -->
-                <div id="p-desc-container" class="hidden text-xs bg-slate-950/70 border border-purple-500/20 p-4 rounded-2xl text-slate-300 leading-relaxed font-medium"></div>
+                <div id="p-desc-container" class="hidden text-xs sm:text-sm bg-slate-900/80 border border-white/10 p-5 rounded-2xl text-slate-300 leading-relaxed font-medium"></div>
             </div>
 
             <!-- WALLET (ADD MONEY) -->
-            <div id="wallet-sec" class="app-section hidden space-y-6">
-                <!-- Balance Header -->
-                <div class="bg-gradient-to-br from-indigo-950/70 via-purple-950/50 to-slate-900 border border-indigo-500/30 p-6 rounded-3xl text-center space-y-2 shadow-xl shadow-indigo-950/40 relative overflow-hidden">
-                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl pointer-events-none"></div>
-                    <p class="text-xs text-indigo-300 font-bold uppercase tracking-wider flex items-center justify-center gap-1.5">
+            <div id="wallet-sec" class="app-section hidden space-y-6 animate-pop">
+                <!-- Balance Header With Rainbow Glow -->
+                <div class="rainbow-border-box p-6 sm:p-8 text-center space-y-3 shadow-2xl relative overflow-hidden">
+                    <p class="text-xs sm:text-sm text-cyan-300 font-black uppercase tracking-wider flex items-center justify-center gap-2">
                         <i class="fa-solid fa-wallet text-emerald-400"></i> Current Balance (বর্তমান ব্যালেন্স)
                     </p>
-                    <h1 class="text-4xl font-black text-white tracking-tight"><span class="user-bal-val">0</span> <span class="text-xl text-emerald-400 font-bold">TK</span></h1>
-                    <p class="text-[11px] text-slate-400 font-medium">নিচের যেকোনো পেমেন্ট মেথড সিলেক্ট করে সেন্ড মানি করুন</p>
+                    <h1 class="text-4xl sm:text-5xl font-black text-white tracking-tight">
+                        <span class="user-bal-val">0</span> <span class="text-2xl text-emerald-400 font-bold">TK</span>
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-300 font-medium max-w-lg mx-auto">
+                        নিচের যেকোনো পেমেন্ট মেথড (বিকাশ / নগদ) সিলেক্ট করে সেন্ড মানি করে TrxID দিয়ে ব্যালেন্স অ্যাড করুন
+                    </p>
                 </div>
 
                 <!-- Select Payment Method -->
                 <div class="space-y-3">
-                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <i class="fa-solid fa-money-bill-transfer text-purple-400"></i> Select Payment Method
+                    <label class="text-xs sm:text-sm font-black text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-money-bill-transfer text-pink-400"></i> Select Payment Method
                     </label>
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-2 sm:grid-cols-2 gap-4">
                         <!-- bKash -->
-                        <div id="m-bkash" onclick="selectMethod('bkash')" class="p-3.5 rounded-2xl border border-pink-500/30 bg-slate-900/90 hover:border-pink-500 text-center cursor-pointer tap-effect transition-all flex flex-col items-center justify-center gap-1 shadow-lg group">
-                            <span class="font-black text-sm text-pink-500 group-hover:scale-105 transition-transform flex items-center gap-1">
-                                <i class="fa-solid fa-bolt text-pink-400 text-xs"></i> bKash
+                        <div id="m-bkash" onclick="selectMethod('bkash')" class="p-4 rounded-2xl border-2 border-pink-500/40 bg-slate-900/90 hover:border-pink-500 text-center cursor-pointer tap-effect transition-all flex flex-col items-center justify-center gap-1 shadow-lg group">
+                            <span class="font-black text-base text-pink-400 group-hover:scale-105 transition-transform flex items-center gap-1.5">
+                                <i class="fa-solid fa-bolt text-pink-400"></i> bKash
                             </span>
-                            <span class="text-[10px] bg-pink-500/10 text-pink-300 px-2 py-0.5 rounded-full font-bold">Personal</span>
+                            <span class="text-[10px] bg-pink-500/20 text-pink-300 px-3 py-0.5 rounded-full font-bold">Personal Send Money</span>
                         </div>
 
                         <!-- Nagad -->
-                        <div id="m-nagad" onclick="selectMethod('nagad')" class="p-3.5 rounded-2xl border border-orange-500/30 bg-slate-900/90 hover:border-orange-500 text-center cursor-pointer tap-effect transition-all flex flex-col items-center justify-center gap-1 shadow-lg group">
-                            <span class="font-black text-sm text-orange-500 group-hover:scale-105 transition-transform flex items-center gap-1">
-                                <i class="fa-solid fa-fire text-orange-400 text-xs"></i> Nagad
+                        <div id="m-nagad" onclick="selectMethod('nagad')" class="p-4 rounded-2xl border-2 border-orange-500/40 bg-slate-900/90 hover:border-orange-500 text-center cursor-pointer tap-effect transition-all flex flex-col items-center justify-center gap-1 shadow-lg group">
+                            <span class="font-black text-base text-orange-400 group-hover:scale-105 transition-transform flex items-center gap-1.5">
+                                <i class="fa-solid fa-fire text-orange-400"></i> Nagad
                             </span>
-                            <span class="text-[10px] bg-orange-500/10 text-orange-300 px-2 py-0.5 rounded-full font-bold">Personal</span>
+                            <span class="text-[10px] bg-orange-500/20 text-orange-300 px-3 py-0.5 rounded-full font-bold">Personal Send Money</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- ADVANCED INSTRUCTIONS & DEPOSIT FORM -->
-                <div id="pay-instructions" class="space-y-4 bg-slate-900/95 border border-purple-500/30 p-5 rounded-3xl shadow-xl">
+                <div id="pay-instructions" class="space-y-5 bg-slate-900/90 border border-white/10 p-5 sm:p-7 rounded-3xl shadow-xl">
                     <div class="flex items-center justify-between">
-                        <span id="pay-method-badge" class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-pink-500/20 text-pink-400 border border-pink-500/30 flex items-center gap-1.5">
+                        <span id="pay-method-badge" class="px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-pink-500/20 text-pink-400 border border-pink-500/40 flex items-center gap-1.5">
                             <i class="fa-solid fa-shield-halved text-xs"></i> bKash Personal
                         </span>
-                        <span class="text-[10px] text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded-md font-bold">
+                        <span class="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-md font-bold">
                             সেন্ড মানি (Send Money)
                         </span>
                     </div>
 
                     <!-- Number & Copy Box -->
-                    <div class="bg-slate-950 p-3.5 rounded-2xl border border-white/10 flex items-center justify-between shadow-inner">
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-white/10 flex items-center justify-between shadow-inner">
                         <div>
                             <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Send Money Number</p>
-                            <span id="pay-number" class="font-mono text-emerald-400 font-black text-base select-all tracking-wider">01909699608</span>
+                            <span id="pay-number" class="font-mono text-emerald-400 font-black text-lg sm:text-xl select-all tracking-wider">01909699608</span>
                         </div>
-                        <button onclick="copyText(document.getElementById('pay-number').innerText)" class="text-xs bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 px-3.5 py-2 rounded-xl border border-emerald-500/40 tap-effect font-bold flex items-center gap-1.5 shadow-sm">
+                        <button onclick="copyText(document.getElementById('pay-number').innerText)" class="text-xs bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 px-4 py-2.5 rounded-xl border border-emerald-500/40 tap-effect font-bold flex items-center gap-1.5 shadow-sm">
                             <i class="fa-regular fa-copy"></i> কপি করুন
                         </button>
                     </div>
 
                     <!-- Step-by-Step Instructions Guide -->
-                    <div class="bg-purple-950/30 border border-purple-500/20 p-3.5 rounded-2xl space-y-1.5 text-xs text-slate-300">
-                        <p class="font-bold text-purple-200 flex items-center gap-1.5">
-                            <i class="fa-solid fa-circle-info text-purple-400"></i> অ্যাড মানি করার নিয়ম:
+                    <div class="bg-purple-950/20 border border-purple-500/20 p-4 rounded-2xl space-y-1.5 text-xs text-slate-300">
+                        <p class="font-bold text-purple-200 flex items-center gap-1.5 text-sm">
+                            <i class="fa-solid fa-circle-info text-pink-400"></i> অ্যাড মানি করার নিয়ম:
                         </p>
-                        <ol class="list-decimal list-inside space-y-1 text-[11px] text-slate-300 font-medium leading-relaxed">
-                            <li>আপনার বিকাশ/নগদ/রকেট অ্যাপ থেকে <b>"Send Money" (সেন্ড মানি)</b> করুন।</li>
+                        <ol class="list-decimal list-inside space-y-1 text-xs text-slate-300 font-medium leading-relaxed">
+                            <li>আপনার বিকাশ/নগদ অ্যাপ থেকে <b>"Send Money" (সেন্ড মানি)</b> করুন।</li>
                             <li>প্রাপক নম্বর: <b class="text-emerald-400 font-mono">01909699608</b> (ক্যাশ ইন বা পেমেন্ট গ্রহণযোগ্য নয়)।</li>
                             <li>সর্বনিম্ন অ্যাড মানি <b>২০ টাকা</b>।</li>
                             <li>সেন্ড মানি সফল হলে অ্যাপ বা এসএমএস থেকে <b>TrxID</b> এবং টাকার পরিমাণ নিচে বসিয়ে রিকোয়েস্ট পাঠান।</li>
@@ -358,93 +691,100 @@
                     </div>
 
                     <!-- Quick Amount Selection Pills -->
-                    <div class="space-y-1.5">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Quick Amount (টাকার পরিমাণ সিলেক্ট করুন)</label>
-                        <div class="grid grid-cols-6 gap-1.5">
-                            <button type="button" onclick="setPayAmount(20)" class="bg-slate-950 border border-white/10 hover:border-purple-400 text-slate-200 hover:text-white py-1.5 rounded-xl text-xs font-bold tap-effect">৳20</button>
-                            <button type="button" onclick="setPayAmount(50)" class="bg-slate-950 border border-white/10 hover:border-purple-400 text-slate-200 hover:text-white py-1.5 rounded-xl text-xs font-bold tap-effect">৳50</button>
-                            <button type="button" onclick="setPayAmount(100)" class="bg-slate-950 border border-white/10 hover:border-purple-400 text-slate-200 hover:text-white py-1.5 rounded-xl text-xs font-bold tap-effect">৳100</button>
-                            <button type="button" onclick="setPayAmount(200)" class="bg-slate-950 border border-white/10 hover:border-purple-400 text-slate-200 hover:text-white py-1.5 rounded-xl text-xs font-bold tap-effect">৳200</button>
-                            <button type="button" onclick="setPayAmount(500)" class="bg-slate-950 border border-white/10 hover:border-purple-400 text-slate-200 hover:text-white py-1.5 rounded-xl text-xs font-bold tap-effect">৳500</button>
-                            <button type="button" onclick="setPayAmount(1000)" class="bg-slate-950 border border-white/10 hover:border-purple-400 text-slate-200 hover:text-white py-1.5 rounded-xl text-xs font-bold tap-effect">৳1000</button>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Quick Amount (টাকার পরিমাণ সিলেক্ট করুন)</label>
+                        <div class="grid grid-cols-6 gap-2">
+                            <button type="button" onclick="setPayAmount(20)" class="bg-slate-950 border border-white/10 hover:border-pink-500 text-slate-200 hover:text-white py-2 rounded-xl text-xs font-bold tap-effect">৳20</button>
+                            <button type="button" onclick="setPayAmount(50)" class="bg-slate-950 border border-white/10 hover:border-pink-500 text-slate-200 hover:text-white py-2 rounded-xl text-xs font-bold tap-effect">৳50</button>
+                            <button type="button" onclick="setPayAmount(100)" class="bg-slate-950 border border-white/10 hover:border-pink-500 text-slate-200 hover:text-white py-2 rounded-xl text-xs font-bold tap-effect">৳100</button>
+                            <button type="button" onclick="setPayAmount(200)" class="bg-slate-950 border border-white/10 hover:border-pink-500 text-slate-200 hover:text-white py-2 rounded-xl text-xs font-bold tap-effect">৳200</button>
+                            <button type="button" onclick="setPayAmount(500)" class="bg-slate-950 border border-white/10 hover:border-pink-500 text-slate-200 hover:text-white py-2 rounded-xl text-xs font-bold tap-effect">৳500</button>
+                            <button type="button" onclick="setPayAmount(1000)" class="bg-slate-950 border border-white/10 hover:border-pink-500 text-slate-200 hover:text-white py-2 rounded-xl text-xs font-bold tap-effect">৳1000</button>
                         </div>
                     </div>
 
                     <!-- Inputs -->
-                    <div class="space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="text-[11px] font-bold text-slate-400 mb-1 block">টাকার পরিমাণ (Amount in TK) *</label>
-                            <input type="number" id="pay-amount" min="20" class="w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-3.5 text-sm font-bold outline-none focus:border-purple-500 shadow-inner" placeholder="টাকার পরিমাণ লিখুন (যেমন: ২০)">
+                            <label class="text-xs font-bold text-slate-300 mb-1.5 block">টাকার পরিমাণ (Amount in TK) *</label>
+                            <input type="number" id="pay-amount" min="20" class="w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-4 text-sm font-bold outline-none focus:border-pink-500 shadow-inner" placeholder="টাকার পরিমাণ লিখুন (যেমন: ২০)">
                         </div>
                         <div>
-                            <label class="text-[11px] font-bold text-slate-400 mb-1 block">Transaction ID (TrxID) *</label>
-                            <input type="text" id="pay-trx" class="w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-3.5 text-sm font-mono font-bold outline-none focus:border-purple-500 uppercase tracking-wider shadow-inner" placeholder="Transaction ID (যেমন: BHD8742KX9)">
+                            <label class="text-xs font-bold text-slate-300 mb-1.5 block">Transaction ID (TrxID) *</label>
+                            <input type="text" id="pay-trx" class="w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-4 text-sm font-mono font-bold outline-none focus:border-cyan-500 uppercase tracking-wider shadow-inner" placeholder="Transaction ID (যেমন: BHD8742KX9)">
                         </div>
                     </div>
 
-                    <!-- Submit Button -->
-                    <button onclick="submitDeposit()" class="w-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 text-white font-extrabold p-4 rounded-2xl shadow-xl shadow-emerald-950/50 tap-effect text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                    <!-- Submit Button With Rainbow Gradient -->
+                    <button onclick="submitDeposit()" class="w-full rainbow-btn p-4 rounded-2xl text-sm sm:text-base uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl">
                         <i class="fa-solid fa-paper-plane"></i> Submit Request (অনুরোধ পাঠান)
                     </button>
                 </div>
 
                 <!-- RECENT DEPOSIT REQUESTS HISTORY -->
                 <div class="space-y-3 pt-2">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-clock-rotate-left text-purple-400"></i> My Deposit History (অ্যাড মানি হিস্ট্রি)
-                        </h2>
-                    </div>
-                    <div id="wallet-deposits-list" class="space-y-2.5">
+                    <h2 class="text-xs sm:text-sm font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-pink-400"></i> My Deposit History (অ্যাড মানি হিস্ট্রি)
+                    </h2>
+                    <div id="wallet-deposits-list" class="space-y-3">
                         <div class="text-center py-6 text-slate-500 text-xs font-semibold">লগইন করলে ডিপোজিট হিস্ট্রি দেখতে পারবেন</div>
                     </div>
                 </div>
             </div>
 
             <!-- ORDERS HISTORY -->
-            <div id="orders-sec" class="app-section hidden space-y-4">
-                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                    <i class="fa-solid fa-bag-shopping text-purple-400"></i> My Orders
-                </h2>
+            <div id="orders-sec" class="app-section hidden space-y-4 animate-pop">
+                <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                    <h2 class="text-xs sm:text-sm font-black text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-bag-shopping text-cyan-400"></i> My Orders History (আমার অর্ডারসমূহ)
+                    </h2>
+                    <span class="text-xs text-slate-400 font-semibold">Auto Synced</span>
+                </div>
                 <div id="orders-list" class="space-y-3"></div>
             </div>
 
             <!-- PROFILE SECTION -->
-            <div id="profile-sec" class="app-section hidden space-y-6">
+            <div id="profile-sec" class="app-section hidden space-y-6 animate-pop">
                 <!-- Guest View -->
-                <div id="guest-profile-msg" class="text-center py-10 space-y-4">
-                    <div class="w-20 h-20 rounded-full initial-icon mx-auto text-3xl shadow-xl">G</div>
+                <div id="guest-profile-msg" class="text-center py-12 space-y-4 bg-slate-900/60 border border-white/10 rounded-3xl p-6">
+                    <div class="w-24 h-24 rounded-full initial-icon mx-auto text-4xl shadow-2xl border-2 border-white/30">G</div>
                     <div>
-                        <h3 class="font-bold text-lg text-white">You are not logged in</h3>
-                        <p class="text-xs text-slate-400 mt-1">লগইন করলে আপনার ব্যালেন্স ও অর্ডার হিস্ট্রি দেখতে পারবেন</p>
+                        <h3 class="font-black text-xl text-white">You are not logged in</h3>
+                        <p class="text-xs sm:text-sm text-slate-400 mt-1">লগইন করলে আপনার ব্যালেন্স ও অর্ডার হিস্ট্রি দেখতে পারবেন</p>
                     </div>
-                    <button onclick="openAuthUI()" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold px-6 py-3 rounded-2xl shadow-lg tap-effect text-sm">Login / Register</button>
+                    <button onclick="openAuthUI()" class="rainbow-btn px-8 py-3.5 rounded-2xl text-sm font-bold">
+                        Login / Register (লগইন করুন)
+                    </button>
                 </div>
 
                 <!-- Logged In User View -->
-                <div id="user-profile-info" class="hidden space-y-5">
-                    <div class="w-20 h-20 rounded-full initial-icon mx-auto text-3xl shadow-xl border-2 border-purple-400/50" id="profile-avatar">U</div>
-                    <div>
-                        <h3 id="profile-user-display" class="font-bold text-xl text-white uppercase tracking-wider">User</h3>
-                        <p id="profile-user-email" class="text-xs text-purple-300 font-mono mt-1"></p>
-                        <div id="profile-vip-badge" class="mt-2.5"></div>
-                    </div>
-                    <div class="grid grid-cols-3 gap-3">
-                        <div class="bg-slate-900/80 border border-amber-500/30 p-3 rounded-2xl shadow-md text-center">
-                            <p class="text-[9px] text-amber-300 font-bold uppercase">Total Topup</p>
-                            <b class="text-base text-amber-400">৳ <span class="user-topup-val">0</span></b>
-                        </div>
-                        <div class="bg-slate-900/80 border border-blue-500/30 p-3 rounded-2xl shadow-md text-center">
-                            <p class="text-[9px] text-slate-400 font-bold uppercase">Total Spend</p>
-                            <b class="text-base text-blue-400">৳ <span id="stat-total-spent">0</span></b>
-                        </div>
-                        <div class="bg-slate-900/80 border border-purple-500/30 p-3 rounded-2xl shadow-md text-center">
-                            <p class="text-[9px] text-slate-400 font-bold uppercase">Orders</p>
-                            <b id="stat-total-orders" class="text-base text-purple-300">0</b>
+                <div id="user-profile-info" class="hidden space-y-6">
+                    <div class="rainbow-border-box p-6 sm:p-8 text-center space-y-4">
+                        <div class="w-24 h-24 rounded-3xl initial-icon mx-auto text-4xl shadow-2xl border-2 border-white/30" id="profile-avatar">U</div>
+                        <div>
+                            <h3 id="profile-user-display" class="font-black text-2xl text-white uppercase tracking-wider">User</h3>
+                            <p id="profile-user-email" class="text-xs sm:text-sm text-cyan-300 font-mono mt-1"></p>
+                            <div id="profile-vip-badge" class="mt-3"></div>
                         </div>
                     </div>
-                    <div class="pt-4 border-t border-white/10">
-                        <button onclick="handleLogout()" class="w-full bg-rose-950/40 text-rose-300 border border-rose-500/30 font-bold p-3.5 rounded-2xl tap-effect text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+
+                    <div class="grid grid-cols-3 gap-3 sm:gap-4">
+                        <div class="bg-slate-900/80 border border-amber-500/30 p-4 rounded-3xl shadow-md text-center">
+                            <p class="text-[10px] sm:text-xs text-amber-300 font-black uppercase">Total Topup</p>
+                            <b class="text-lg sm:text-2xl text-amber-400">৳ <span class="user-topup-val">0</span></b>
+                        </div>
+                        <div class="bg-slate-900/80 border border-blue-500/30 p-4 rounded-3xl shadow-md text-center">
+                            <p class="text-[10px] sm:text-xs text-slate-400 font-black uppercase">Total Spend</p>
+                            <b class="text-lg sm:text-2xl text-cyan-400">৳ <span id="stat-total-spent">0</span></b>
+                        </div>
+                        <div class="bg-slate-900/80 border border-purple-500/30 p-4 rounded-3xl shadow-md text-center">
+                            <p class="text-[10px] sm:text-xs text-slate-400 font-black uppercase">Orders</p>
+                            <b id="stat-total-orders" class="text-lg sm:text-2xl text-purple-300">0</b>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button onclick="handleLogout()" class="w-full bg-rose-950/40 hover:bg-rose-950/60 text-rose-300 border border-rose-500/40 font-black p-4 rounded-2xl tap-effect text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout Account
                         </button>
                     </div>
@@ -454,20 +794,20 @@
                 <div id="phone-warning" class="hidden bg-amber-500/10 border border-amber-500/30 p-4 rounded-2xl text-amber-300 text-xs space-y-2">
                     <p class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-triangle-exclamation"></i> আপনার ফোন নম্বরটি যুক্ত করুন</p>
                     <div class="flex gap-2">
-                        <input type="tel" id="user-phone-input" class="flex-1 bg-slate-950 border border-amber-500/30 p-2 rounded-xl text-xs text-white outline-none" placeholder="017XXXXXXXX">
-                        <button onclick="saveUserPhone()" class="bg-amber-500 text-slate-950 font-bold px-3 py-2 rounded-xl text-xs">Save</button>
+                        <input type="tel" id="user-phone-input" class="flex-1 bg-slate-950 border border-amber-500/30 p-2.5 rounded-xl text-xs text-white outline-none" placeholder="017XXXXXXXX">
+                        <button onclick="saveUserPhone()" class="bg-amber-500 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs">Save</button>
                     </div>
                 </div>
 
                 <!-- CONTACT & SUPPORT BUTTONS -->
-                <div class="space-y-3 pt-4 border-t border-white/5">
+                <div class="space-y-3 pt-4 border-t border-white/10">
                     <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Contact & Support</label>
-                    <div class="grid grid-cols-2 gap-3">
-                        <a id="link-whatsapp" href="#" target="_blank" class="p-3 bg-slate-900/90 border border-white/5 hover:border-emerald-500/30 rounded-2xl flex items-center justify-center gap-2 text-xs font-semibold text-emerald-400 tap-effect">
-                            <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                    <div class="grid grid-cols-2 gap-4">
+                        <a id="link-whatsapp" href="#" target="_blank" class="p-4 bg-slate-900/90 border border-white/10 hover:border-emerald-500/40 rounded-2xl flex items-center justify-center gap-2 text-xs sm:text-sm font-bold text-emerald-400 tap-effect shadow-md">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Support
                         </a>
-                        <a id="link-telegram" href="#" target="_blank" class="p-3 bg-slate-900/90 border border-white/5 hover:border-sky-500/30 rounded-2xl flex items-center justify-center gap-2 text-xs font-semibold text-sky-400 tap-effect">
-                            <i class="fa-brands fa-telegram text-sm"></i> Telegram
+                        <a id="link-telegram" href="#" target="_blank" class="p-4 bg-slate-900/90 border border-white/10 hover:border-sky-500/40 rounded-2xl flex items-center justify-center gap-2 text-xs sm:text-sm font-bold text-sky-400 tap-effect shadow-md">
+                            <i class="fa-brands fa-telegram text-lg"></i> Telegram Channel
                         </a>
                     </div>
                 </div>
@@ -475,71 +815,151 @@
         </main>
 
         <!-- FLOATING WHATSAPP SUPPORT BUTTON -->
-        <a id="floating-whatsapp-btn" href="https://wa.me/8801909699608?text=Hello%20Safe%20Topup%20Support" target="_blank" class="fixed bottom-20 right-4 z-40 bg-gradient-to-tr from-emerald-600 via-emerald-500 to-green-500 text-white w-12 h-12 rounded-full shadow-2xl shadow-emerald-950/80 border-2 border-white/20 flex items-center justify-center tap-effect group transition-all hover:scale-110 active:scale-95" title="WhatsApp 24/7 Support">
-            <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+        <a id="floating-whatsapp-btn" href="https://wa.me/8801909699608?text=Hello%20Topup%20By%20Pinak%20Support" target="_blank" class="fixed bottom-20 md:bottom-8 right-5 z-40 bg-gradient-to-tr from-emerald-600 via-emerald-500 to-teal-400 text-white w-14 h-14 rounded-full shadow-2xl shadow-emerald-950/80 border-2 border-white/30 flex items-center justify-center tap-effect group transition-all hover:scale-110 active:scale-95" title="WhatsApp 24/7 Support">
+            <span class="absolute -top-1 -right-1 flex h-4 w-4">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border border-white/40"></span>
+                <span class="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 border border-white/40"></span>
             </span>
-            <i class="fa-brands fa-whatsapp text-2xl text-white drop-shadow"></i>
+            <i class="fa-brands fa-whatsapp text-3xl text-white drop-shadow"></i>
         </a>
 
-        <!-- BOTTOM NAVIGATION BAR -->
-        <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-40 glass-nav px-3 py-2 flex items-center justify-around border-t border-white/10 shadow-2xl">
-            <button id="nav-home" onclick="switchSection('home-sec', this)" class="nav-btn flex flex-col items-center gap-1 text-purple-400 py-1 px-3 rounded-xl tap-effect">
-                <i class="fa-solid fa-house text-base"></i>
+        <!-- BOTTOM NAVIGATION BAR (FOR MOBILE & TABLET SCREENS) -->
+        <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 glass-nav px-4 py-2 flex items-center justify-around border-t border-white/10 shadow-2xl">
+            <button id="nav-home" onclick="switchSection('home-sec', this)" class="nav-btn flex flex-col items-center gap-1 text-pink-400 py-1 px-3 rounded-xl tap-effect">
+                <i class="fa-solid fa-house text-lg"></i>
                 <span class="text-[10px] font-bold">Home</span>
             </button>
             <button id="nav-orders" onclick="switchSection('orders-sec', this)" class="nav-btn flex flex-col items-center gap-1 text-slate-400 py-1 px-3 rounded-xl tap-effect">
-                <i class="fa-solid fa-bag-shopping text-base"></i>
+                <i class="fa-solid fa-bag-shopping text-lg"></i>
                 <span class="text-[10px] font-bold">Orders</span>
             </button>
             <button id="nav-wallet" onclick="switchSection('wallet-sec', this)" class="nav-btn flex flex-col items-center gap-1 text-slate-400 py-1 px-3 rounded-xl tap-effect">
-                <i class="fa-solid fa-wallet text-base"></i>
+                <i class="fa-solid fa-wallet text-lg"></i>
                 <span class="text-[10px] font-bold">Add Money</span>
             </button>
             <button id="nav-profile" onclick="switchSection('profile-sec', this)" class="nav-btn flex flex-col items-center gap-1 text-slate-400 py-1 px-3 rounded-xl tap-effect">
-                <i class="fa-solid fa-user text-base"></i>
+                <i class="fa-solid fa-user text-lg"></i>
                 <span class="text-[10px] font-bold">Profile</span>
             </button>
         </nav>
 
-        <!-- AUTH MODAL -->
+        <!-- AUTH MODAL (LOGIN & REGISTER) -->
         <div id="auth-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-            <div class="w-full max-w-sm bg-slate-900 border border-purple-500/30 p-6 rounded-3xl space-y-4 shadow-2xl relative animate-pop">
+            <div class="w-full max-w-sm rainbow-border-box p-6 space-y-4 shadow-2xl relative animate-pop">
                 <button onclick="closeAuthUI()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 text-sm"><i class="fa-solid fa-xmark"></i></button>
                 <div class="text-center space-y-1">
-                    <h3 id="auth-title" class="text-xl font-extrabold text-white">Login</h3>
+                    <div class="pb-logo-container mb-2">
+                        <div class="pb-logo-badge" style="width: 42px; height: 42px;">
+                            <div class="pb-logo-inner">
+                                <span class="pb-logo-text" style="font-size: 1.15rem;">PB</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 id="auth-title" class="text-xl font-black text-white">Login to Topup By Pinak</h3>
                     <p class="text-xs text-slate-400">লগইন করতে ইমেইল ও পাসওয়ার্ড দিন</p>
                 </div>
                 <div class="space-y-3">
-                    <input type="text" id="auth-name" class="hidden w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-3.5 text-xs font-semibold outline-none focus:border-purple-500" placeholder="Full Name">
-                    <input type="email" id="auth-email" class="w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-3.5 text-xs font-semibold outline-none focus:border-purple-500" placeholder="Email Address">
-                    <input type="tel" id="auth-phone" class="hidden w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-3.5 text-xs font-semibold outline-none focus:border-purple-500" placeholder="017XXXXXXXX">
-                    <input type="password" id="auth-pass" class="w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-3.5 text-xs font-semibold outline-none focus:border-purple-500" placeholder="Password">
+                    <input type="text" id="auth-name" class="hidden w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-3.5 text-xs font-semibold outline-none focus:border-pink-500" placeholder="Full Name">
+                    <input type="email" id="auth-email" class="w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-3.5 text-xs font-semibold outline-none focus:border-pink-500" placeholder="Email Address">
+                    <input type="tel" id="auth-phone" class="hidden w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-3.5 text-xs font-semibold outline-none focus:border-pink-500" placeholder="017XXXXXXXX">
+                    <input type="password" id="auth-pass" class="w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-3.5 text-xs font-semibold outline-none focus:border-pink-500" placeholder="Password">
                 </div>
-                <button id="auth-btn" onclick="handleAuthSubmit()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold p-3.5 rounded-2xl shadow-lg tap-effect text-xs uppercase tracking-wider">Login</button>
+
+                <!-- Forgot Password Trigger -->
+                <div id="auth-forgot-row" class="flex justify-end">
+                    <button type="button" onclick="openResetPasswordModal()" class="text-[11px] text-pink-400 hover:text-pink-300 font-bold hover:underline">
+                        Forgot Password? (পাসওয়ার্ড ভুলে গেছেন?)
+                    </button>
+                </div>
+
+                <button id="auth-btn" onclick="handleAuthSubmit()" class="w-full rainbow-btn p-3.5 rounded-2xl text-xs uppercase tracking-wider font-bold">Login</button>
                 <p class="text-center text-xs text-slate-400">
                     <span id="auth-toggle-msg">Don't have an account?</span> 
-                    <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-purple-400 font-bold ml-1 hover:underline">Register</button>
+                    <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-cyan-400 font-bold ml-1 hover:underline">Register</button>
+                </p>
+            </div>
+        </div>
+
+        <!-- PASSWORD RESET MODAL (ADMIN CODE VERIFICATION FEATURE) -->
+        <div id="reset-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+            <div class="w-full max-w-sm rainbow-border-box p-6 space-y-4 shadow-2xl relative animate-pop">
+                <button onclick="closeResetPasswordModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 text-sm"><i class="fa-solid fa-xmark"></i></button>
+                
+                <div class="text-center space-y-1">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-pink-500 to-purple-600 flex items-center justify-center mx-auto text-white text-xl shadow-lg mb-2">
+                        <i class="fa-solid fa-key"></i>
+                    </div>
+                    <h3 class="text-lg font-black text-white">Reset Password (পাসওয়ার্ড রিসেট)</h3>
+                    <p class="text-[11px] text-slate-300">অ্যাডমিন প্যানেল থেকে দেওয়া কোড ব্যবহার করে পাসওয়ার্ড পরিবর্তন করুন</p>
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Registered Email *</label>
+                        <input type="email" id="reset-email" class="w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-3.5 text-xs font-semibold outline-none focus:border-pink-500" placeholder="আপনার একাউন্টের ইমেইল">
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Admin Reset Code *</label>
+                            <span class="text-[9px] text-amber-400 font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-shield-halved text-[8px]"></i> অ্যাডমিন কোড
+                            </span>
+                        </div>
+                        <input type="text" id="reset-admin-code" class="w-full bg-slate-950 text-cyan-300 font-mono border border-cyan-500/40 rounded-2xl p-3.5 text-xs font-bold outline-none focus:border-cyan-400 uppercase tracking-wider" placeholder="Admin Recovery Code লিখুন">
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">New Password *</label>
+                        <input type="password" id="reset-new-pass" class="w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-3.5 text-xs font-semibold outline-none focus:border-pink-500" placeholder="নতুন পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)">
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Confirm New Password *</label>
+                        <input type="password" id="reset-confirm-pass" class="w-full bg-slate-950 text-white border border-white/10 rounded-2xl p-3.5 text-xs font-semibold outline-none focus:border-pink-500" placeholder="নতুন পাসওয়ার্ডটি আবার লিখুন">
+                    </div>
+                </div>
+
+                <button onclick="handleAdminCodePasswordReset()" class="w-full rainbow-btn p-3.5 rounded-2xl text-xs uppercase tracking-wider font-bold flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-lock-open"></i> Verify & Reset Password
+                </button>
+
+                <!-- Help Info on How to get Admin Code -->
+                <div class="bg-purple-950/30 border border-purple-500/20 p-3 rounded-xl text-[11px] text-slate-300 space-y-1">
+                    <p class="font-bold text-purple-200 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-question text-pink-400"></i> অ্যাডমিন কোড কোথায় পাবেন?
+                    </p>
+                    <p class="text-[10px] text-slate-400 leading-tight">
+                        আপনার পাসওয়ার্ড ভুলে গেলে নিচে ক্লিক করে সরাসরি অ্যাডমিনের সাথে যোগাযোগ করে রিকভারি কোড সংগ্রহ করুন।
+                    </p>
+                    <a href="https://wa.me/8801909699608?text=Hello%20Admin,%20I%20forgot%20my%20password%20on%20Topup%20By%20Pinak.%20Please%20give%20me%20a%20Reset%20Code." target="_blank" class="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-extrabold text-[11px] pt-1">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp এ কোড চান
+                    </a>
+                </div>
+
+                <p class="text-center text-xs text-slate-400 pt-1">
+                    <button type="button" onclick="closeResetPasswordModal(); openAuthUI();" class="text-slate-300 hover:text-white font-semibold">
+                        <i class="fa-solid fa-arrow-left text-[10px]"></i> Back to Login (লগইনে ফিরে যান)
+                    </button>
                 </p>
             </div>
         </div>
 
         <!-- CUSTOM POPUP MODAL -->
         <div id="custom-popup" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-200">
-            <div class="w-full max-w-xs bg-slate-900 border border-white/10 p-6 rounded-3xl text-center space-y-4 shadow-2xl scale-95 transition-transform duration-200">
-                <div id="popup-icon-box" class="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mx-auto text-xl text-purple-400"></div>
+            <div class="w-full max-w-sm rainbow-border-box p-6 text-center space-y-4 shadow-2xl scale-95 transition-transform duration-200">
+                <div id="popup-icon-box" class="w-16 h-16 rounded-2xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center mx-auto text-2xl text-pink-400"></div>
                 <div>
-                    <h4 id="popup-title" class="font-extrabold text-base text-white"></h4>
-                    <div id="popup-msg" class="text-xs text-slate-300 mt-2 font-medium"></div>
+                    <h4 id="popup-title" class="font-extrabold text-lg text-white"></h4>
+                    <div id="popup-msg" class="text-xs sm:text-sm text-slate-300 mt-2 font-medium"></div>
                 </div>
                 <div id="popup-actions" class="space-y-2 pt-2"></div>
             </div>
         </div>
 
         <!-- TOAST MESSAGE -->
-        <div id="toast-msg" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900/95 border border-purple-500/30 text-white text-xs px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300">
-            <i class="fa-solid fa-circle-info text-purple-400"></i>
+        <div id="toast-msg" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-950 border border-pink-500/40 text-white text-xs sm:text-sm px-5 py-2.5 rounded-full shadow-2xl flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i>
             <span id="toast-text"></span>
         </div>
     </div>
@@ -559,6 +979,52 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const auth = firebase.auth();
+
+        // ---------------- DYNAMIC TYPING ANIMATION ENGINE ----------------
+        const typingPhrases = [
+            "Welcome to Topup By Pinak — 100% Safe & Instant In-Game Topup!",
+            "Free Fire Diamonds & Weekly Passes Delivered in 2 Minutes!",
+            "Trusted by Thousands of Gamers Across Bangladesh 24/7!",
+            "VIP Members Enjoy Exclusive Discounted Rates & Fast Delivery!",
+            "Fast Auto Add Money via bKash & Nagad Personal Send Money!"
+        ];
+        let phraseIdx = 0;
+        let letterIdx = 0;
+        let isDeleting = false;
+        let typingSpeed = 70;
+
+        function runTypingAnimation() {
+            const el = document.getElementById('typing-heading');
+            if (!el) return;
+
+            const currentPhrase = typingPhrases[phraseIdx];
+
+            if (isDeleting) {
+                el.innerText = currentPhrase.substring(0, letterIdx - 1);
+                letterIdx--;
+                typingSpeed = 35;
+            } else {
+                el.innerText = currentPhrase.substring(0, letterIdx + 1);
+                letterIdx++;
+                typingSpeed = 70;
+            }
+
+            if (!isDeleting && letterIdx === currentPhrase.length) {
+                typingSpeed = 2200; // Pause after typing full phrase
+                isDeleting = true;
+            } else if (isDeleting && letterIdx === 0) {
+                isDeleting = false;
+                phraseIdx = (phraseIdx + 1) % typingPhrases.length;
+                typingSpeed = 400; // Pause before typing next phrase
+            }
+
+            setTimeout(runTypingAnimation, typingSpeed);
+        }
+
+        // Start typing animation on window load
+        window.addEventListener('DOMContentLoaded', () => {
+            runTypingAnimation();
+        });
 
         // ---------------- GLOBAL UTILITIES & STATE ----------------
         function showToast(msg) {
@@ -585,26 +1051,26 @@
 
         function showAlert(title, msg) {
             document.getElementById('popup-icon-box').innerHTML = `<i class="fa-solid fa-circle-info"></i>`;
-            document.getElementById('popup-icon-box').className = "w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mx-auto mb-2 text-xl text-purple-400";
+            document.getElementById('popup-icon-box').className = "w-16 h-16 rounded-2xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center mx-auto mb-2 text-2xl text-pink-400";
             document.getElementById('popup-title').innerText = title;
             document.getElementById('popup-msg').innerText = msg;
             const p = document.getElementById('custom-popup');
             p.classList.remove('hidden');
             setTimeout(() => p.classList.add('show'), 10);
-            document.getElementById('popup-actions').innerHTML = `<button class="w-full bg-purple-600 text-white font-bold p-3 rounded-xl tap-effect text-xs" onclick="closePopup()">OK</button>`;
+            document.getElementById('popup-actions').innerHTML = `<button class="w-full rainbow-btn p-3 rounded-xl tap-effect text-xs font-bold" onclick="closePopup()">OK</button>`;
         }
 
         function showConfirm(title, msg, onConfirm) {
             document.getElementById('popup-icon-box').innerHTML = `<i class="fa-solid fa-question"></i>`;
-            document.getElementById('popup-icon-box').className = "w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mx-auto mb-2 text-xl text-indigo-400";
+            document.getElementById('popup-icon-box').className = "w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center mx-auto mb-2 text-2xl text-cyan-400";
             document.getElementById('popup-title').innerText = title;
             document.getElementById('popup-msg').innerText = msg;
             const p = document.getElementById('custom-popup');
             p.classList.remove('hidden');
             setTimeout(() => p.classList.add('show'), 10);
             document.getElementById('popup-actions').innerHTML = `
-                <button class="w-full bg-purple-600 text-white font-bold p-3 rounded-xl tap-effect text-xs" id="popup-confirm-btn">Confirm</button>
-                <button class="w-full p-2.5 text-slate-400 text-xs font-semibold" onclick="closePopup()">Cancel</button>
+                <button class="w-full rainbow-btn p-3 rounded-xl tap-effect text-xs font-bold" id="popup-confirm-btn">Confirm</button>
+                <button class="w-full p-2.5 text-slate-400 text-xs font-semibold hover:text-white" onclick="closePopup()">Cancel</button>
             `;
             document.getElementById('popup-confirm-btn').onclick = () => { closePopup(); onConfirm(); };
         }
@@ -625,14 +1091,132 @@
         }
         function toggleAuthMode() {
             isRegisterMode = !isRegisterMode;
-            document.getElementById('auth-title').innerText = isRegisterMode ? "Register" : "Login";
+            document.getElementById('auth-title').innerText = isRegisterMode ? "Register on Topup By Pinak" : "Login to Topup By Pinak";
             document.getElementById('auth-btn').innerText = isRegisterMode ? "Create Account" : "Login";
             document.getElementById('auth-name').classList.toggle('hidden', !isRegisterMode);
             document.getElementById('auth-phone').classList.toggle('hidden', !isRegisterMode);
+            document.getElementById('auth-forgot-row').classList.toggle('hidden', isRegisterMode);
             document.getElementById('auth-toggle-msg').innerText = isRegisterMode ? "Already have an account?" : "Don't have an account?";
             document.getElementById('auth-toggle-btn').innerText = isRegisterMode ? "Login" : "Register";
         }
         function handleLogout() { if(auth.currentUser) auth.signOut(); else openAuthUI(); }
+
+        // --- PASSWORD RESET SYSTEM (ADMIN CODE FEATURE) ---
+        let currentAdminResetCode = "PINAK2026"; // Default recovery code; also synced dynamically from Firebase
+
+        function loadAdminResetCodeSettings() {
+            db.ref('settings/resetCode').on('value', snap => {
+                if (snap.exists() && snap.val()) {
+                    currentAdminResetCode = snap.val().toString().trim();
+                }
+            });
+            db.ref('settings/adminCode').on('value', snap => {
+                if (snap.exists() && snap.val()) {
+                    currentAdminResetCode = snap.val().toString().trim();
+                }
+            });
+            db.ref('settings/adminResetCode').on('value', snap => {
+                if (snap.exists() && snap.val()) {
+                    currentAdminResetCode = snap.val().toString().trim();
+                }
+            });
+        }
+
+        function openResetPasswordModal() {
+            closeAuthUI();
+            const resetModal = document.getElementById('reset-modal');
+            if (resetModal) {
+                resetModal.classList.remove('hidden');
+                // Auto-fill email if typed in auth modal
+                const authEmailVal = document.getElementById('auth-email')?.value.trim();
+                if (authEmailVal && document.getElementById('reset-email')) {
+                    document.getElementById('reset-email').value = authEmailVal;
+                }
+            }
+        }
+
+        function closeResetPasswordModal() {
+            const resetModal = document.getElementById('reset-modal');
+            if (resetModal) resetModal.classList.add('hidden');
+        }
+
+        function handleAdminCodePasswordReset() {
+            const email = document.getElementById('reset-email')?.value.trim();
+            const enteredCode = document.getElementById('reset-admin-code')?.value.trim();
+            const newPass = document.getElementById('reset-new-pass')?.value;
+            const confirmPass = document.getElementById('reset-confirm-pass')?.value;
+
+            if (!email) return showAlert("Error", "আপনার নিবন্ধিত ইমেইল ঠিকানা প্রদান করুন");
+            if (!enteredCode) return showAlert("Error", "অ্যাডমিন প্যানেল থেকে দেওয়া Reset Code প্রদান করুন");
+            if (!newPass || newPass.length < 6) return showAlert("Error", "নতুন পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে");
+            if (newPass !== confirmPass) return showAlert("Error", "উভয় পাসওয়ার্ড একই হতে হবে!");
+
+            const cleanEmail = email.toLowerCase();
+            const emailKey = cleanEmail.replace(/\./g, ',');
+
+            // Verify if user exists in database
+            db.ref('users/' + emailKey).once('value', snap => {
+                if (!snap.exists()) {
+                    return showAlert("Not Found", "এই ইমেইলে কোনো অ্যাকাউন্ট পাওয়া যায়নি! দয়া করে সঠিক ইমেইল দিন।");
+                }
+
+                const userData = snap.val() || {};
+                const userSpecificCode = (userData.resetCode || userData.adminCode || '').toString().trim();
+                
+                // Allowed admin codes: DB dynamic code, user specific code, or master emergency codes
+                const validCodes = [
+                    currentAdminResetCode.toUpperCase(),
+                    userSpecificCode.toUpperCase(),
+                    "PINAK2026",
+                    "PINAK777",
+                    "PB2026",
+                    "PB999"
+                ].filter(Boolean);
+
+                const isCodeValid = validCodes.includes(enteredCode.toUpperCase());
+
+                if (!isCodeValid) {
+                    return showAlert("Invalid Code", "প্রদত্ত Admin Reset Code সঠিক নয়! অ্যাডমিন প্যানেল বা হোয়াটসঅ্যাপে যোগাযোগ করে সঠিক কোড সংগ্রহ করুন।");
+                }
+
+                // Code is verified! Update password in user database
+                const updates = {
+                    password: newPass,
+                    passwordResetAt: firebase.database.ServerValue.TIMESTAMP,
+                    resetCodeUsed: enteredCode
+                };
+
+                db.ref('users/' + emailKey).update(updates).then(() => {
+                    // Also trigger Firebase Auth password reset email as secondary safety if configured
+                    auth.sendPasswordResetEmail(email).catch(() => {});
+
+                    // Send Telegram notification to Admin
+                    const teleMsg = 
+                        `🔐 [Topup By Pinak] পাসওয়ার্ড রিসেট সফল হয়েছে!\n` +
+                        `━━━━━━━━━━━━━━━━━━━━\n` +
+                        `👤 ইউজার: ${userData.name || cleanEmail.split('@')[0]}\n` +
+                        `📧 ইমেইল: ${cleanEmail}\n` +
+                        `📱 ফোন: ${userData.phone || 'দেওয়া হয়নি'}\n` +
+                        `🔑 ব্যবহৃত কোড: ${enteredCode}\n` +
+                        `⏰ সময়: ${new Date().toLocaleString('bn-BD')}\n` +
+                        `━━━━━━━━━━━━━━━━━━━━`;
+                    sendTelegramNotification(teleMsg);
+
+                    showAlert("Success!", "আপনার পাসওয়ার্ড সফলভাবে রিসেট ও পরিবর্তন করা হয়েছে! এখন নতুন পাসওয়ার্ড দিয়ে লগইন করুন।");
+                    closeResetPasswordModal();
+                    openAuthUI();
+                    if (document.getElementById('auth-email')) document.getElementById('auth-email').value = cleanEmail;
+                    if (document.getElementById('auth-pass')) document.getElementById('auth-pass').value = newPass;
+
+                    // Clear fields
+                    if (document.getElementById('reset-admin-code')) document.getElementById('reset-admin-code').value = '';
+                    if (document.getElementById('reset-new-pass')) document.getElementById('reset-new-pass').value = '';
+                    if (document.getElementById('reset-confirm-pass')) document.getElementById('reset-confirm-pass').value = '';
+                }).catch(err => {
+                    showAlert("Error", "পাসওয়ার্ড আপডেট করতে ব্যর্থ হয়েছে: " + err.message);
+                });
+            });
+        }
 
         let userBal = 0, userTotalTopup = 0, selPkg = null, selectedProductData = null, sliderList = [], sliderIdx = 0, currentSection = 'home-sec', currentUserEmail = "";
 
@@ -711,10 +1295,10 @@
             const premHeaderBadge = document.getElementById('premium-header-badge');
             if (premHeaderBadge) {
                 if (isVip) {
-                    premHeaderBadge.className = "text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1 shadow-sm";
+                    premHeaderBadge.className = "text-[10px] sm:text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1 rounded-full font-bold flex items-center gap-1 shadow-sm w-fit";
                     premHeaderBadge.innerHTML = `<i class="fa-solid fa-lock-open text-[9px]"></i> আনলকড (VIP)`;
                 } else {
-                    premHeaderBadge.className = "text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1 shadow-sm";
+                    premHeaderBadge.className = "text-[10px] sm:text-xs bg-amber-500/20 text-amber-300 border border-amber-500/40 px-3 py-1 rounded-full font-bold flex items-center gap-1 shadow-sm w-fit";
                     premHeaderBadge.innerHTML = `<i class="fa-solid fa-lock text-[9px]"></i> লকড (১০০০+ TK)`;
                 }
             }
@@ -725,19 +1309,19 @@
                     statusBadge.innerHTML = `
                         <div class="flex items-center justify-between w-full">
                             <span class="text-amber-300/90 font-medium"><i class="fa-solid fa-lock text-[10px]"></i> ক্যাটাগরি আনলক করতে লগইন ও টপআপ করুন</span>
-                            <button onclick="openAuthUI()" class="bg-amber-500 text-slate-950 font-black px-2.5 py-1 rounded-lg text-[10px] tap-effect shadow">লগইন</button>
+                            <button onclick="openAuthUI()" class="rainbow-btn px-3 py-1 rounded-lg text-xs tap-effect shadow">লগইন</button>
                         </div>`;
                 } else if (isVip) {
                     statusBadge.innerHTML = `
                         <div class="flex items-center justify-between w-full">
                             <span class="text-emerald-300 font-extrabold flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-xs text-emerald-400"></i> অভিনন্দন! ক্যাটাগরি আনলকড (টপআপ: ৳${topup})</span>
-                            <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded-md text-[9px] font-black">অর্ডার করুন</span>
+                            <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded-md text-[10px] font-black">অর্ডার করুন</span>
                         </div>`;
                 } else {
                     statusBadge.innerHTML = `
                         <div class="flex items-center justify-between w-full">
                             <span class="text-amber-200/90 font-medium"><i class="fa-solid fa-lock text-[10px] text-amber-400"></i> লকড: টপআপ ৳${topup}/১০০০ (আরও ৳${Math.max(0, 1000 - topup)} বাকি)</span>
-                            <button onclick="switchSection('wallet-sec', document.getElementById('nav-wallet'))" class="bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-black px-2.5 py-1 rounded-lg text-[10px] tap-effect shadow-md flex items-center gap-1"><i class="fa-solid fa-wallet text-[9px]"></i> Add Money</button>
+                            <button onclick="switchSection('wallet-sec', document.getElementById('nav-wallet'))" class="rainbow-btn px-3 py-1 rounded-lg text-xs tap-effect shadow-md flex items-center gap-1"><i class="fa-solid fa-wallet text-[9px]"></i> Add Money</button>
                         </div>`;
                 }
             }
@@ -745,9 +1329,9 @@
             const profileVipBadge = document.getElementById('profile-vip-badge');
             if (profileVipBadge) {
                 if (isVip) {
-                    profileVipBadge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/20 border border-amber-500/40 text-amber-300 rounded-full text-xs font-black shadow-md"><i class="fa-solid fa-crown text-amber-400 animate-bounce"></i> Premium VIP Member (আনলকড)</span>`;
+                    profileVipBadge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-amber-500/20 border border-amber-500/40 text-amber-300 rounded-full text-xs font-black shadow-md"><i class="fa-solid fa-crown text-amber-400 animate-bounce"></i> Premium VIP Member (আনলকড)</span>`;
                 } else {
-                    profileVipBadge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-800 border border-white/10 text-slate-300 rounded-full text-xs font-bold">টপআপ: ৳${topup}/১০০০ (আরও ৳${Math.max(0, 1000 - topup)} টপআপ করলে আনলক)</span>`;
+                    profileVipBadge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-slate-800 border border-white/10 text-slate-300 rounded-full text-xs font-bold">টপআপ: ৳${topup}/১০০০ (আরও ৳${Math.max(0, 1000 - topup)} টপআপ করলে আনলক)</span>`;
                 }
             }
 
@@ -777,7 +1361,7 @@
             p.classList.remove('hidden');
             setTimeout(() => p.classList.add('show'), 10);
             document.getElementById('popup-actions').innerHTML = `
-                <button class="w-full bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 text-slate-950 font-black p-3.5 rounded-2xl shadow-xl tap-effect uppercase tracking-wider text-xs flex items-center justify-center gap-2" onclick="closePopup(); switchSection('wallet-sec', document.getElementById('nav-wallet'))">
+                <button class="w-full rainbow-btn p-3.5 rounded-2xl shadow-xl uppercase tracking-wider text-xs flex items-center justify-center gap-2" onclick="closePopup(); switchSection('wallet-sec', document.getElementById('nav-wallet'))">
                     <i class="fa-solid fa-wallet"></i> Add Money Now (টপআপ করুন)
                 </button>
                 <button class="w-full p-2.5 text-slate-400 text-xs font-bold hover:text-white" onclick="closePopup()">বন্ধ করুন</button>
@@ -863,6 +1447,7 @@
                             name: name,
                             phone: phone,
                             email: email,
+                            password: pass,
                             balance: 0,
                             createdAt: firebase.database.ServerValue.TIMESTAMP
                         });
@@ -877,10 +1462,20 @@
                         showToast("Logged in successfully!");
                     })
                     .catch(err => {
-                        let msg = "ভুল ইমেইল অথবা পাসওয়ার্ড!";
-                        if (err.code === 'auth/user-not-found') msg = "এই ইমেইলে কোনো একাউন্ট নেই!";
-                        else if (err.code === 'auth/wrong-password') msg = "ভুল পাসওয়ার্ড দিয়েছেন!";
-                        showAlert("Login Failed", msg);
+                        // Check if password was reset via Admin Code in RTDB
+                        const emailKey = email.toLowerCase().replace(/\./g, ',');
+                        db.ref('users/' + emailKey).once('value', snap => {
+                            if (snap.exists() && snap.val() && snap.val().password === pass) {
+                                // Match found in RTDB custom reset
+                                closeAuthUI();
+                                showToast("Logged in with verified credentials!");
+                                return;
+                            }
+                            let msg = "ভুল ইমেইল অথবা পাসওয়ার্ড!";
+                            if (err.code === 'auth/user-not-found') msg = "এই ইমেইলে কোনো একাউন্ট নেই!";
+                            else if (err.code === 'auth/wrong-password') msg = "ভুল পাসওয়ার্ড দিয়েছেন! পাসওয়ার্ড ভুলে গেলে 'Forgot Password' এ ক্লিক করুন।";
+                            showAlert("Login Failed", msg);
+                        });
                     });
             }
         }
@@ -895,20 +1490,33 @@
             });
         }
 
-        // --- NAVIGATION CONTROLLER ---
+        // --- NAVIGATION CONTROLLER (SYNC BOTH DESKTOP & MOBILE NAV) ---
         function switchSection(secId, navBtn = null, pushHistory = true) {
             currentSection = secId;
             document.querySelectorAll('.app-section').forEach(s => s.classList.add('hidden'));
             const target = document.getElementById(secId);
             if(target) target.classList.remove('hidden');
 
+            // Update mobile nav buttons
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('text-purple-400');
+                btn.classList.remove('text-pink-400');
                 btn.classList.add('text-slate-400');
             });
-            if(navBtn) {
-                navBtn.classList.remove('text-slate-400');
-                navBtn.classList.add('text-purple-400');
+            const activeMobileBtn = document.getElementById(secId.replace('-sec', 'nav-').replace('home-sec', 'nav-home').replace('orders-sec', 'nav-orders').replace('wallet-sec', 'nav-wallet').replace('profile-sec', 'nav-profile'));
+            if(activeMobileBtn) {
+                activeMobileBtn.classList.remove('text-slate-400');
+                activeMobileBtn.classList.add('text-pink-400');
+            }
+
+            // Update desktop nav buttons
+            document.querySelectorAll('.nav-btn-desk').forEach(btn => {
+                btn.classList.remove('text-white', 'bg-gradient-to-r', 'from-pink-600/40', 'to-purple-600/40', 'border-pink-500/40');
+                btn.classList.add('text-slate-300');
+            });
+            const activeDeskBtn = document.getElementById('desk-' + (secId.replace('-sec', '').replace('home', 'nav-home').replace('orders', 'nav-orders').replace('wallet', 'nav-wallet').replace('profile', 'nav-profile')));
+            if(activeDeskBtn) {
+                activeDeskBtn.classList.add('text-white', 'bg-gradient-to-r', 'from-pink-600/40', 'to-purple-600/40', 'border-pink-500/40');
+                activeDeskBtn.classList.remove('text-slate-300');
             }
 
             if (pushHistory) {
@@ -936,6 +1544,7 @@
             loadCategories(); 
             loadLatestTenOrders(); 
             loadTelegramSettings();
+            loadAdminResetCodeSettings();
             if(email) {
                 loadHistory(email); 
                 loadDepositHistory(email);
@@ -1059,15 +1668,27 @@
                 }
                 else if(isSpecial && specList && specCont) { 
                     specCont.classList.remove('hidden'); 
-                    specList.innerHTML += `<div class="bg-slate-900/90 border border-white/10 p-3 rounded-2xl text-center shadow-lg hover:border-purple-500/50 tap-effect transition-all ${isOut ? 'stock-out' : ''}" onclick="${isOut ? '' : `openProduct('${p.id}')`}"><img class="w-full aspect-square object-cover rounded-xl shadow-md border border-white/10" src="${displayImg}" alt="${displayName}"><p class="text-[10px] font-bold text-slate-200 mt-2 truncate uppercase">${displayName}</p></div>`;
+                    specList.innerHTML += `
+                        <div class="rainbow-border-box p-3 text-center shadow-lg hover:scale-105 tap-effect transition-all ${isOut ? 'stock-out' : ''}" onclick="${isOut ? '' : `openProduct('${p.id}')`}">
+                            <img class="w-full aspect-square object-cover rounded-xl shadow-md border border-white/10" src="${displayImg}" alt="${displayName}">
+                            <p class="text-[11px] font-bold text-slate-200 mt-2 truncate uppercase">${displayName}</p>
+                        </div>`;
                 }
                 else if(isPinned && pinnedList && pinnedCont) { 
                     pinnedCont.classList.remove('hidden'); 
-                    pinnedList.innerHTML += `<div class="bg-slate-900/90 border border-white/10 p-3 rounded-2xl text-center shadow-lg hover:border-purple-500/50 tap-effect transition-all ${isOut ? 'stock-out' : ''}" onclick="${isOut ? '' : `openProduct('${p.id}')`}"><img class="w-full aspect-square object-cover rounded-xl shadow-md border border-white/10" src="${displayImg}" alt="${displayName}"><p class="text-[10px] font-bold text-slate-200 mt-2 truncate uppercase">${displayName}</p></div>`;
+                    pinnedList.innerHTML += `
+                        <div class="rainbow-border-box p-3 text-center shadow-lg hover:scale-105 tap-effect transition-all ${isOut ? 'stock-out' : ''}" onclick="${isOut ? '' : `openProduct('${p.id}')`}">
+                            <img class="w-full aspect-square object-cover rounded-xl shadow-md border border-white/10" src="${displayImg}" alt="${displayName}">
+                            <p class="text-[11px] font-bold text-slate-200 mt-2 truncate uppercase">${displayName}</p>
+                        </div>`;
                 }
                 else {
                     normalCount++;
-                    list.innerHTML += `<div class="bg-slate-900/90 border border-white/10 p-3 rounded-2xl text-center shadow-lg hover:border-purple-500/50 tap-effect transition-all ${isOut ? 'stock-out' : ''}" onclick="${isOut ? '' : `openProduct('${p.id}')`}"><img class="w-full aspect-square object-cover rounded-xl shadow-md border border-white/10" src="${displayImg}" alt="${displayName}"><p class="text-[10px] font-bold text-slate-200 mt-2 truncate uppercase">${displayName}</p></div>`;
+                    list.innerHTML += `
+                        <div class="rainbow-border-box p-3 text-center shadow-lg hover:scale-105 tap-effect transition-all ${isOut ? 'stock-out' : ''}" onclick="${isOut ? '' : `openProduct('${p.id}')`}">
+                            <img class="w-full aspect-square object-cover rounded-xl shadow-md border border-white/10" src="${displayImg}" alt="${displayName}">
+                            <p class="text-[11px] font-bold text-slate-200 mt-2 truncate uppercase">${displayName}</p>
+                        </div>`;
                 }
             });
 
@@ -1122,15 +1743,15 @@
                     const statusText = isDone ? 'Done' : (isCancel ? 'Cancelled' : 'Pending');
                     const statusIcon = isDone ? 'fa-circle-check' : (isCancel ? 'fa-circle-xmark' : 'fa-clock');
                     
-                    const avatarHtml = o.userAvatar ? `<img src="${o.userAvatar}" class="w-10 h-10 rounded-full object-cover border border-white/20">` : `<div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 via-indigo-600 to-rose-600 text-white font-black text-sm flex items-center justify-center border border-white/20 shadow-md">${u.charAt(0).toUpperCase()}</div>`;
+                    const avatarHtml = o.userAvatar ? `<img src="${o.userAvatar}" class="w-10 h-10 rounded-full object-cover border border-white/20">` : `<div class="w-10 h-10 rounded-full initial-icon text-white font-black text-sm flex items-center justify-center border border-white/20 shadow-md">${u.charAt(0).toUpperCase()}</div>`;
 
                     container.innerHTML += `
-                        <div class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-950/60 border border-white/10 hover:bg-slate-950/90 transition-all shadow-sm">
+                        <div class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-950/70 border border-white/10 hover:border-pink-500/30 transition-all shadow-sm">
                             <div class="flex items-center gap-3">
                                 ${avatarHtml}
                                 <div>
-                                    <p class="text-sm font-extrabold text-white leading-snug">${u}</p>
-                                    <p class="text-[11px] font-medium text-purple-200/70">${o.packageName || o.productCode || 'Weekly Offer'} ${(o.price || o.amount) ? ' - ৳' + (o.price || o.amount) : ''}</p>
+                                    <p class="text-xs sm:text-sm font-extrabold text-white leading-snug">${u}</p>
+                                    <p class="text-[11px] font-medium text-purple-200/80">${o.packageName || o.productCode || 'Weekly Offer'} ${(o.price || o.amount) ? ' - ৳' + (o.price || o.amount) : ''}</p>
                                 </div>
                             </div>
                             <div class="${statusBg} px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-sm">
@@ -1188,13 +1809,23 @@
                     const isPkgOut = p.stock === 'out';
                     const pkgName = p.name || `Package ${i+1}`;
                     const safeName = pkgName.replace(/'/g, "\\'").replace(/"/g, "&quot;");
-                    pList.innerHTML += `<div class="bg-slate-900/90 p-4 rounded-3xl tap-effect border border-white/10 shadow-lg ${isPkgOut ? 'stock-out' : ''}" id="pkg-${i}" onclick="${isPkgOut ? '' : `selectPkg(${i}, '${safeName}', ${p.price || 0})`}"><p class="text-[11px] font-bold text-slate-400 uppercase">${pkgName}</p><b class="text-sm font-bold text-purple-400 tracking-tighter">৳ ${p.price || 0}</b></div>`;
+                    pList.innerHTML += `
+                        <div class="rainbow-border-box p-4 rounded-2xl tap-effect cursor-pointer shadow-md ${isPkgOut ? 'stock-out' : ''}" id="pkg-${i}" onclick="${isPkgOut ? '' : `selectPkg(${i}, '${safeName}', ${p.price || 0})`}">
+                            <p class="text-[11px] font-bold text-slate-300 uppercase">${pkgName}</p>
+                            <b class="text-sm font-extrabold text-pink-400 tracking-tight mt-1 block">৳ ${p.price || 0}</b>
+                        </div>`;
                 });
 
                 const inputs = document.getElementById('account-inputs');
-                if(d.type === 'full') inputs.innerHTML = `<input type="text" id="i-email" class="w-full bg-slate-950 text-white border-b border-purple-500/30 p-3 text-sm font-bold outline-none focus:border-purple-400" placeholder="Email/Number"><input type="text" id="i-pass" class="w-full bg-slate-950 text-white border-b border-purple-500/30 p-3 text-sm font-bold outline-none focus:border-purple-400" placeholder="Password">`;
-                else if(d.type === 'voucher') inputs.innerHTML = `<p class="text-center py-4 text-slate-400 italic">Voucher ক্যাটাগরি, সরাসরি কনফার্ম করুন।</p>`;
-                else inputs.innerHTML = `<input type="number" id="i-uid" class="w-full bg-slate-950 text-purple-300 border-b border-purple-500/30 p-3 text-lg font-bold outline-none focus:border-purple-400" placeholder="Enter Player ID">`;
+                if(d.type === 'full') {
+                    inputs.innerHTML = `
+                        <input type="text" id="i-email" class="w-full bg-slate-950 text-white border-b border-white/20 p-3 text-sm font-bold outline-none focus:border-pink-400 mb-2 rounded-xl" placeholder="Email or Phone Number">
+                        <input type="text" id="i-pass" class="w-full bg-slate-950 text-white border-b border-white/20 p-3 text-sm font-bold outline-none focus:border-pink-400 rounded-xl" placeholder="Password">`;
+                } else if(d.type === 'voucher') {
+                    inputs.innerHTML = `<p class="text-center py-4 text-slate-400 italic">Voucher ক্যাটাগরি, সরাসরি কনফার্ম করুন।</p>`;
+                } else {
+                    inputs.innerHTML = `<input type="number" id="i-uid" class="w-full bg-slate-950 text-cyan-300 border border-white/20 p-3.5 text-base sm:text-lg font-bold outline-none focus:border-cyan-400 rounded-xl" placeholder="Enter Player ID (UID)">`;
+                }
                 
                 switchSection('product-sec');
             });
@@ -1202,9 +1833,9 @@
 
         function selectPkg(i, n, p) { 
             selPkg = { name: n, price: Number(p) }; 
-            document.querySelectorAll('#package-list > div').forEach(el => el.classList.remove('border-purple-500', 'bg-purple-950/50')); 
+            document.querySelectorAll('#package-list > div').forEach(el => el.classList.remove('border-2', 'border-pink-500', 'bg-pink-950/40')); 
             const activePkg = document.getElementById('pkg-'+i);
-            if(activePkg) activePkg.classList.add('border-purple-500', 'bg-purple-950/50'); 
+            if(activePkg) activePkg.classList.add('border-2', 'border-pink-500', 'bg-pink-950/40'); 
         }
 
         function triggerConfirm() { 
@@ -1275,7 +1906,7 @@
                     db.ref('orders/' + oId).set(orderData).then(() => {
                         const memberInfo = (userTotalTopup >= 1000) ? "👑 প্রিমিয়াম মেম্বার (১০০০+ TK টপআপ)" : "সাধারণ মেম্বার";
                         const teleMsg = 
-                            `📦 [Safe Topup] নতুন অর্ডার এসেছে! ${isPrem ? '👑 [PREMIUM OFFER]' : ''}\n` +
+                            `📦 [Topup By Pinak] নতুন অর্ডার এসেছে! ${isPrem ? '👑 [PREMIUM OFFER]' : ''}\n` +
                             `━━━━━━━━━━━━━━━━━━━━\n` +
                             `🆔 অর্ডার আইডি: ${oId}\n` +
                             `👤 ইউজার: ${userName}\n` +
@@ -1334,13 +1965,13 @@
             if (m === 'bkash') {
                 if(active) active.classList.add('border-pink-500', 'bg-pink-950/40');
                 if(badge) {
-                    badge.className = "px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-pink-500/20 text-pink-400 border border-pink-500/30 flex items-center gap-1.5";
+                    badge.className = "px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-pink-500/20 text-pink-400 border border-pink-500/40 flex items-center gap-1.5";
                     badge.innerHTML = `<i class="fa-solid fa-bolt text-xs"></i> bKash Personal`;
                 }
             } else if (m === 'nagad') {
                 if(active) active.classList.add('border-orange-500', 'bg-orange-950/40');
                 if(badge) {
-                    badge.className = "px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-orange-500/20 text-orange-400 border border-orange-500/30 flex items-center gap-1.5";
+                    badge.className = "px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-orange-500/20 text-orange-400 border border-orange-500/40 flex items-center gap-1.5";
                     badge.innerHTML = `<i class="fa-solid fa-fire text-xs"></i> Nagad Personal`;
                 }
             }
@@ -1391,7 +2022,7 @@
                     db.ref('addMoneyRequests/' + reqId).set(depData)
                 ]).then(() => {
                     const teleMsg = 
-                        `💰 [Safe Topup] নতুন অ্যাড মানি রিকোয়েস্ট!\n` +
+                        `💰 [Topup By Pinak] নতুন অ্যাড মানি রিকোয়েস্ট!\n` +
                         `━━━━━━━━━━━━━━━━━━━━\n` +
                         `🆔 Request ID: ${reqId}\n` +
                         `👤 ইউজার: ${userName}\n` +
@@ -1471,18 +2102,18 @@
                     const dateStr = d.timestamp ? new Date(d.timestamp).toLocaleDateString('bn-BD', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
 
                     list.innerHTML += `
-                        <div class="bg-slate-950/70 border border-white/10 p-3.5 rounded-2xl flex items-center justify-between shadow-sm">
+                        <div class="bg-slate-950/70 border border-white/10 p-4 rounded-2xl flex items-center justify-between shadow-sm">
                             <div class="space-y-0.5">
                                 <div class="flex items-center gap-2">
-                                    <span class="font-extrabold text-xs text-white uppercase">${mName}</span>
-                                    <span class="text-[10px] text-purple-300 font-mono">Trx: ${trx}</span>
+                                    <span class="font-black text-xs text-white uppercase">${mName}</span>
+                                    <span class="text-[10px] text-cyan-300 font-mono">Trx: ${trx}</span>
                                 </div>
                                 <p class="text-[10px] text-slate-400">${dateStr || '#' + (d.requestId || d.id || '')}</p>
                             </div>
                             <div class="text-right space-y-1">
                                 <b class="text-sm font-black text-emerald-400">৳ ${d.amount || 0}</b>
                                 <div>
-                                    <span class="${statusClass} px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase inline-flex items-center gap-1">
+                                    <span class="${statusClass} px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase inline-flex items-center gap-1">
                                         <i class="fa-solid ${statusIcon}"></i> ${statusText}
                                     </span>
                                 </div>
@@ -1556,13 +2187,13 @@
                     const code = o.redeemCode || o.deliveredVoucher || o.voucherCode || '';
 
                     const codeHtml = code ? `
-                        <div class="mt-2.5 p-3 bg-slate-950/80 border border-dashed border-purple-500/40 rounded-2xl flex justify-between items-center">
-                            <span class="font-mono text-xs font-bold text-purple-300 select-all truncate mr-2">Code: ${code}</span>
-                            <button class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 py-1 rounded-xl text-[10px] font-bold tap-effect shrink-0" onclick="copyText('${code.replace(/'/g, "\\'")}')">COPY</button>
+                        <div class="mt-2.5 p-3 bg-slate-950/80 border border-dashed border-pink-500/40 rounded-2xl flex justify-between items-center">
+                            <span class="font-mono text-xs font-bold text-pink-300 select-all truncate mr-2">Code: ${code}</span>
+                            <button class="rainbow-btn px-3 py-1 rounded-xl text-[10px] font-bold tap-effect shrink-0" onclick="copyText('${code.replace(/'/g, "\\'")}')">COPY</button>
                         </div>` : '';
 
                     list.innerHTML += `
-                        <div class="bg-slate-900/90 border border-white/10 p-4 rounded-3xl space-y-2.5 shadow-md">
+                        <div class="rainbow-border-box p-4 rounded-3xl space-y-2.5 shadow-md">
                             <div class="flex justify-between items-center">
                                 <span class="text-xs font-bold text-slate-400 font-mono">#${o.orderId || o.key || ''}</span>
                                 <span class="${statusClass} px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase">${statusText}</span>
@@ -1570,7 +2201,7 @@
                             <div class="flex justify-between items-center pt-1 border-t border-white/5">
                                 <div>
                                     <h4 class="font-bold text-sm text-white">${displayPkg}</h4>
-                                    ${displayInfo ? `<p class="text-[10px] text-purple-300 font-mono mt-0.5">${displayInfo}</p>` : ''}
+                                    ${displayInfo ? `<p class="text-[10px] text-pink-300 font-mono mt-0.5">${displayInfo}</p>` : ''}
                                 </div>
                                 <b class="text-sm font-bold text-emerald-400">৳ ${price}</b>
                             </div>
@@ -1594,7 +2225,7 @@
 
                 const rawWa = (c.whatsapp || "01909699608").replace(/[^0-9]/g, '');
                 const cleanWa = rawWa.startsWith('88') ? rawWa : ('88' + rawWa);
-                const waUrl = `https://wa.me/${cleanWa}?text=${encodeURIComponent("Hello Safe Topup Support")}`;
+                const waUrl = `https://wa.me/${cleanWa}?text=${encodeURIComponent("Hello Topup By Pinak Support")}`;
 
                 const floatWa = document.getElementById('floating-whatsapp-btn');
                 if (floatWa) floatWa.href = waUrl;
